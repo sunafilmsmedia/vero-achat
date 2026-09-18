@@ -23,10 +23,10 @@ export type PurchaseTimeline =
   | "plus_12_mois"; // → court-circuit vers la vidéo long terme
 
 export type JourneyStage =
-  | "curieux" // je commence juste à regarder
-  | "recherche" // je regarde les annonces sérieusement
-  | "visites" // je visite des propriétés
-  | "offres"; // j'ai déjà fait une ou des offres
+  | "premiere_maison" // ce sera ma première maison
+  | "investisseur" // j'achète comme investissement
+  | "vendre_pour_acheter" // je dois vendre pour acheter
+  | "separation"; // achat dans un contexte de séparation
 
 export type BuyingWith = "seul" | "couple";
 

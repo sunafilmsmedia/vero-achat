@@ -52,19 +52,19 @@ export function computeScoring(answers: Answers): ScoringResult {
       break;
   }
 
-  // ── Avancement du parcours ────────────────────────────────────────────────
+  // ── Situation d'achat ─────────────────────────────────────────────────────
   switch (answers.journeyStage) {
-    case "offres":
-      add(12, "Déjà des offres déposées — parcours avancé", "positive");
+    case "investisseur":
+      add(9, "Projet d'investissement — acheteur qui connaît le marché", "positive");
       break;
-    case "visites":
-      add(9, "Visites en cours", "positive");
+    case "vendre_pour_acheter":
+      add(8, "Vente-achat à coordonner — projet concret et motivé", "positive");
       break;
-    case "recherche":
-      add(4, "Suivi actif des annonces", "neutral");
+    case "separation":
+      add(6, "Achat en contexte de séparation — besoin souvent concret et rapide", "positive");
       break;
-    case "curieux":
-      add(-4, "Début de la réflexion", "negative");
+    case "premiere_maison":
+      add(5, "Premier achat — admissible aux programmes premier acheteur", "neutral");
       break;
   }
 

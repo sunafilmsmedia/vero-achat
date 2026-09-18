@@ -81,13 +81,13 @@ export const QUESTIONS: QuestionDef[] = [
     id: "journeyStage",
     kind: "choice",
     title: "Où en êtes-vous dans votre parcours ?",
-    subtitle: "Pour adapter le plan à votre avancement réel.",
+    subtitle: "Pour adapter notre accompagnement à votre situation.",
     autoAdvance: true,
     choices: [
-      { value: "curieux", label: "Je commence à peine à regarder" },
-      { value: "recherche", label: "Je suis les annonces sérieusement" },
-      { value: "visites", label: "Je visite des propriétés" },
-      { value: "offres", label: "J'ai déjà fait une ou des offres" },
+      { value: "premiere_maison", label: "Ce sera ma première maison" },
+      { value: "investisseur", label: "Je suis investisseur" },
+      { value: "vendre_pour_acheter", label: "Je dois vendre pour acheter" },
+      { value: "separation", label: "Je suis en séparation" },
     ],
   },
   {

@@ -129,7 +129,7 @@ export default function RegionMultiSearch({ value, onChange }: Props) {
                 className="
                   w-full text-left glass-card rounded-xl px-4 py-3
                   flex items-center justify-between gap-3
-                  hover:bg-white/[0.09] hover:border-[var(--color-slate-accent)]/20
+                  hover:bg-black/[0.04] hover:border-[var(--color-slate-accent)]/30
                   transition-colors group
                 "
               >
@@ -147,13 +147,13 @@ export default function RegionMultiSearch({ value, onChange }: Props) {
               className="
                 w-full text-left rounded-xl px-4 py-3
                 flex items-center gap-3
-                bg-[var(--color-brand-500)]/10 border border-[var(--color-brand-400)]/25
-                hover:bg-[var(--color-brand-500)]/16
+                bg-[var(--color-gold)]/10 border border-[var(--color-gold)]/30
+                hover:bg-[var(--color-gold)]/16
                 transition-colors
               "
             >
-              <span className="flex items-center justify-center w-6 h-6 rounded-full bg-[var(--color-brand-500)] shrink-0">
-                <svg className="w-3.5 h-3.5 text-white" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2.2">
+              <span className="flex items-center justify-center w-6 h-6 rounded-full bg-[var(--color-gold)] shrink-0">
+                <svg className="w-3.5 h-3.5 text-[#0a0a0a]" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2.2">
                   <path d="M10 4v12M4 10h12" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </span>

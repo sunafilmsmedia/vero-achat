@@ -87,9 +87,9 @@ export default function ContactForm({ answers, verdict, onSubmitted, gated }: Pr
       className="
         mt-12
         rounded-3xl p-6 sm:p-8
-        bg-white/[0.06]
-        border border-[var(--color-slate-accent)]/12
-        shadow-[0_30px_80px_-30px_rgba(0, 0, 0, 0.45)]
+        bg-black/[0.02]
+        border border-[var(--color-slate-accent)]/25
+        shadow-[0_30px_80px_-30px_rgba(0, 0, 0, 0.18)]
       "
     >
       <div className="flex items-center gap-2 mb-1">
@@ -148,7 +148,7 @@ export default function ContactForm({ answers, verdict, onSubmitted, gated }: Pr
             onChange={(e) => setConsent(e.target.checked)}
             className="peer sr-only"
           />
-          <span className="block w-5 h-5 rounded-md border border-[var(--color-slate-accent)]/40 bg-white/[0.08] peer-checked:bg-[var(--color-gold)] peer-checked:border-[var(--color-gold-soft)] transition-colors" />
+          <span className="block w-5 h-5 rounded-md border border-[var(--color-slate-accent)]/50 bg-black/[0.04] peer-checked:bg-[var(--color-gold)] peer-checked:border-[var(--color-gold-soft)] transition-colors" />
           <svg
             className="absolute inset-0 m-auto w-3 h-3 text-[#0a0a0a] opacity-0 peer-checked:opacity-100 transition-opacity"
             viewBox="0 0 12 12"

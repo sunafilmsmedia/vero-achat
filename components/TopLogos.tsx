@@ -15,14 +15,17 @@ export default function TopLogos() {
         className="fixed top-4 left-4 sm:top-6 sm:left-6 z-30 pointer-events-none"
         aria-hidden
       >
-        <Image
-          src={team.src}
-          alt={team.alt}
-          width={team.width}
-          height={team.height}
-          priority
-          className="h-9 sm:h-11 w-auto"
-        />
+        {/* Le logo d'équipe a un texte blanc → pastille sombre pour le rendre lisible sur fond blanc */}
+        <div className="rounded-xl bg-[#0a0a0a] px-3 py-1.5 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.35)] ring-1 ring-black/5">
+          <Image
+            src={team.src}
+            alt={team.alt}
+            width={team.width}
+            height={team.height}
+            priority
+            className="h-8 sm:h-10 w-auto"
+          />
+        </div>
       </motion.div>
 
       {/* Logo de l'agence — haut à droite, sur pastille blanche (logo à texte foncé) */}

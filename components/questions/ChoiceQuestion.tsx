@@ -29,7 +29,7 @@ export default function ChoiceQuestion({ choices, value, onChange }: Props) {
               ${
                 selected
                   ? "bg-gradient-to-br from-[var(--color-gold-soft)] to-[var(--color-gold)] border border-[var(--color-gold-soft)] shadow-[0_12px_30px_-10px_rgba(201,162,39,0.5)]"
-                  : "glass-card hover:border-[var(--color-slate-accent)]/30 hover:bg-white/[0.08]"
+                  : "glass-card hover:border-[var(--color-slate-accent)]/40 hover:bg-black/[0.03]"
               }
             `}
           >

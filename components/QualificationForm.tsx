@@ -219,9 +219,9 @@ export default function QualificationForm({ onComplete, onLongTerm, onExit }: Pr
               className="
                 inline-flex items-center gap-2
                 px-6 py-2.5 rounded-full text-sm font-medium
-                bg-white/[0.06] border border-[var(--color-slate-accent)]/15
+                bg-black/[0.03] border border-[var(--color-slate-accent)]/25
                 text-[var(--color-brand-100)]
-                hover:bg-white/[0.12] hover:border-[var(--color-slate-accent)]/25
+                hover:bg-black/[0.06] hover:border-[var(--color-slate-accent)]/40
                 disabled:opacity-40 disabled:cursor-not-allowed
                 transition-all
               "

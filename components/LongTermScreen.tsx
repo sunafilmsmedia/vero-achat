@@ -42,7 +42,7 @@ export default function LongTermScreen({ onRestart }: Props) {
         className="max-w-xl text-center"
       >
         {/* Icône lecture */}
-        <div className="mx-auto mb-7 w-14 h-14 rounded-full bg-[var(--color-brand-500)]/15 border border-[var(--color-brand-400)]/30 flex items-center justify-center">
+        <div className="mx-auto mb-7 w-14 h-14 rounded-full bg-[var(--color-gold)]/12 border border-[var(--color-gold)]/30 flex items-center justify-center">
           <svg className="w-6 h-6 text-[var(--color-brand-300)]" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8">
             <circle cx="10" cy="10" r="7.5" />
             <path d="M8.5 7L13 10L8.5 13Z" strokeLinejoin="round" />

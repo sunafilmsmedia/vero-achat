@@ -41,26 +41,26 @@ export default function HeroBackground() {
           style={{ width: "100%", height: "100%" }}
         >
           <TileLayer
-            url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+            url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
             attribution="Tiles &copy; Esri"
           />
           <MapResizer />
         </MapContainer>
       </div>
 
-      {/* Voile noir : la carte reste perceptible, le titre parfaitement lisible */}
+      {/* Voile blanc : la carte reste perceptible, le titre parfaitement lisible */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse at 50% 32%, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0.92) 100%)",
+            "radial-gradient(ellipse at 50% 32%, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.72) 40%, rgba(255,255,255,0.94) 100%)",
         }}
       />
       <div
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(180deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.35) 22%, rgba(0,0,0,0.45) 70%, rgba(0,0,0,0.96) 100%)",
+            "linear-gradient(180deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.4) 22%, rgba(255,255,255,0.5) 70%, rgba(255,255,255,0.98) 100%)",
         }}
       />
     </div>

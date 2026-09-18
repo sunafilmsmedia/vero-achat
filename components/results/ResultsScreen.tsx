@@ -196,13 +196,13 @@ export default function ResultsScreen({ analyze, answers, revealChoice, onRestar
         className="
           mt-12
           rounded-2xl
-          bg-gradient-to-br from-[var(--color-brand-500)]/10 to-[var(--color-brand-700)]/10
-          border border-[var(--color-brand-400)]/20
+          bg-gradient-to-br from-[var(--color-gold)]/10 to-[var(--color-gold)]/5
+          border border-[var(--color-gold)]/25
           p-5 sm:p-6
         "
       >
         <div className="flex items-start gap-3">
-          <div className="shrink-0 w-9 h-9 rounded-full bg-[var(--color-brand-500)]/20 flex items-center justify-center">
+          <div className="shrink-0 w-9 h-9 rounded-full bg-[var(--color-gold)]/15 flex items-center justify-center">
             <svg className="w-4 h-4 text-[var(--color-brand-300)]" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8">
               <path d="M3 17V9L10 3L17 9V17H12V12H8V17Z" strokeLinejoin="round" />
             </svg>
@@ -320,12 +320,12 @@ function CapacityCard({
       className="
         relative overflow-hidden
         rounded-3xl p-7 sm:p-9
-        bg-white/[0.09]
-        border border-[var(--color-slate-accent)]/12
-        shadow-[0_30px_80px_-30px_rgba(0, 0, 0, 0.50)]
+        bg-black/[0.02]
+        border border-[var(--color-slate-accent)]/25
+        shadow-[0_30px_80px_-30px_rgba(0, 0, 0, 0.18)]
       "
     >
-      <div className="absolute -top-24 -right-24 w-60 h-60 rounded-full bg-[var(--color-brand-400)]/10 blur-3xl" />
+      <div className="absolute -top-24 -right-24 w-60 h-60 rounded-full bg-[var(--color-gold)]/10 blur-3xl" />
 
       <div className="relative">
         <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500">
@@ -346,7 +346,7 @@ function CapacityCard({
 
         {hasGap && (
           <div className="mt-6 space-y-3">
-            <div className="rounded-2xl bg-[var(--color-brand-500)]/[0.07] border border-[var(--color-brand-400)]/20 px-4 py-3.5">
+            <div className="rounded-2xl bg-black/[0.03] border border-[var(--color-slate-accent)]/20 px-4 py-3.5">
               <p className="text-sm text-[var(--color-brand-100)] leading-relaxed">
                 💡 Votre mise de fonds actuelle ({formatCurrency(downPayment)}) vous limite à{" "}
                 <strong className="font-semibold">{formatCurrency(capacity.maxByDownPayment)}</strong>{" "}
@@ -452,15 +452,16 @@ function ScoreCard({ score, verdict }: { score: number; verdict: Verdict }) {
       className="
         relative overflow-hidden
         rounded-3xl p-7 sm:p-9
-        bg-gradient-to-br from-[#1b2a5e] via-[#24357f] to-[#131e44]
-        shadow-[0_30px_80px_-30px_rgba(0, 0, 0, 0.85),0_0_0_1px_rgba(255,255,255,0.06)_inset]
+        bg-gradient-to-br from-[#fdfaf1] to-[#f6efda]
+        border border-[var(--color-gold)]/30
+        shadow-[0_30px_80px_-30px_rgba(0, 0, 0, 0.20)]
       "
     >
-      <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-[var(--color-brand-400)]/20 blur-3xl" />
+      <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-[var(--color-gold)]/15 blur-3xl" />
       <div className="absolute -bottom-20 -left-20 w-60 h-60 rounded-full bg-[var(--color-gold)]/10 blur-3xl" />
 
       <div className="relative">
-        <p className="text-[11px] uppercase tracking-[0.2em] text-white/65">
+        <p className="text-[11px] uppercase tracking-[0.2em] text-[var(--color-brand-300)]">
           Score de préparation
         </p>
         <div className="flex items-baseline gap-2 mt-3">
@@ -468,14 +469,14 @@ function ScoreCard({ score, verdict }: { score: number; verdict: Verdict }) {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.45 }}
-            className="font-serif text-7xl sm:text-8xl text-white leading-none"
+            className="font-serif text-7xl sm:text-8xl text-[var(--color-brand-100)] leading-none"
           >
             {score}
           </motion.span>
-          <span className="font-serif text-2xl text-white/55">/100</span>
+          <span className="font-serif text-2xl text-[var(--color-brand-100)]/45">/100</span>
         </div>
 
-        <div className="mt-6 h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
+        <div className="mt-6 h-1.5 w-full rounded-full bg-black/10 overflow-hidden">
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: `${score}%` }}
@@ -484,7 +485,7 @@ function ScoreCard({ score, verdict }: { score: number; verdict: Verdict }) {
           />
         </div>
 
-        <p className="mt-4 text-sm text-white/70">{note}</p>
+        <p className="mt-4 text-sm text-[var(--color-brand-200)]">{note}</p>
       </div>
     </motion.div>
   );

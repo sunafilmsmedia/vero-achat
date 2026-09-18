@@ -81,11 +81,11 @@ export default function ResultsScreen({ analyze, answers, revealChoice, onRestar
             Analyse complète disponible
           </p>
           <h1 className="display-title text-[2rem] sm:text-5xl text-[var(--color-brand-100)] text-balance">
-            Ton pouvoir d&apos;achat est calculé.
+            Votre pouvoir d&apos;achat est calculé.
           </h1>
           <p className="mt-5 text-base sm:text-lg text-slate-400 leading-relaxed text-balance max-w-md mx-auto">
-            Laisse-nous ton contact pour débloquer ton portrait complet et recevoir
-            ton appel personnalisé avec {brokersInlineNames()}.
+            Laissez-nous vos coordonnées pour débloquer votre portrait complet et recevoir
+            votre appel personnalisé avec {brokersInlineNames()}.
           </p>
         </motion.div>
 
@@ -154,7 +154,7 @@ export default function ResultsScreen({ analyze, answers, revealChoice, onRestar
         transition={{ duration: 0.6, delay: 0.7 }}
         className="text-center text-[11px] sm:text-xs text-slate-500 italic mt-3"
       >
-        Estimation indicative — un courtier t&apos;appellera pour la valider avec toi.
+        Estimation indicative — un courtier vous appellera pour la valider avec vous.
       </motion.p>
 
       {/* Capture (ou confirmation) */}
@@ -281,7 +281,7 @@ export default function ResultsScreen({ analyze, answers, revealChoice, onRestar
       <p className="mt-10 text-[11px] text-slate-500 leading-relaxed">
         Ces montants sont une estimation prudente calculée à un taux d&apos;admissibilité
         de {capacity.qualifyingRate.toString().replace(".", ",")} % sur {capacity.amortizationYears} ans.
-        Tes dettes personnelles (auto, marges, cartes) ne sont pas incluses : le montant
+        Vos dettes personnelles (auto, marges, cartes) ne sont pas incluses : le montant
         confirmé par un prêteur peut être plus bas. Ce n&apos;est ni une préapprobation
         ni un engagement de prêt.
       </p>
@@ -329,7 +329,7 @@ function CapacityCard({
 
       <div className="relative">
         <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500">
-          Ce que ta situation pourrait supporter
+          Ce que votre situation pourrait supporter
         </p>
         <motion.p
           initial={{ opacity: 0, y: 8 }}
@@ -340,7 +340,7 @@ function CapacityCard({
           {formatCurrency(capacity.maxByIncome)}
         </motion.p>
         <p className="mt-3 text-sm text-slate-400 leading-relaxed">
-          Estimation basée sur le revenu du ménage, ton profil d&apos;emploi et la mise
+          Estimation basée sur le revenu du ménage, votre profil d&apos;emploi et la mise
           de fonds minimale exigée. 💪
         </p>
 
@@ -348,18 +348,18 @@ function CapacityCard({
           <div className="mt-6 space-y-3">
             <div className="rounded-2xl bg-[var(--color-brand-500)]/[0.07] border border-[var(--color-brand-400)]/20 px-4 py-3.5">
               <p className="text-sm text-[var(--color-brand-100)] leading-relaxed">
-                💡 Ta mise de fonds actuelle ({formatCurrency(downPayment)}) te limite à{" "}
+                💡 Votre mise de fonds actuelle ({formatCurrency(downPayment)}) vous limite à{" "}
                 <strong className="font-semibold">{formatCurrency(capacity.maxByDownPayment)}</strong>{" "}
                 aujourd&apos;hui.
               </p>
             </div>
             <div className="rounded-2xl bg-[var(--color-gold)]/[0.09] border border-[var(--color-gold)]/30 px-4 py-3.5">
               <p className="text-sm text-[var(--color-brand-100)] leading-relaxed">
-                🎯 Pour débloquer ton plein potentiel, vise une mise d&apos;environ{" "}
+                🎯 Pour débloquer votre plein potentiel, visez une mise d&apos;environ{" "}
                 <strong className="font-semibold">
                   {formatCurrency(capacity.requiredDownForCapacity)}
                 </strong>{" "}
-                — il te manque {formatCurrency(capacity.downPaymentGap)}.
+                — il vous manque {formatCurrency(capacity.downPaymentGap)}.
               </p>
             </div>
           </div>
@@ -368,8 +368,8 @@ function CapacityCard({
         {!hasGap && capacity.realisticBudget > 0 && (
           <div className="mt-6 rounded-2xl bg-emerald-500/[0.08] border border-emerald-500/25 px-4 py-3.5">
             <p className="text-sm text-[var(--color-brand-100)] leading-relaxed">
-              ✅ Ta mise de fonds de {formatCurrency(downPayment)} couvre déjà le minimum
-              exigé — rien ne bride ta capacité aujourd&apos;hui.
+              ✅ Votre mise de fonds de {formatCurrency(downPayment)} couvre déjà le minimum
+              exigé — rien ne bride votre capacité aujourd&apos;hui.
             </p>
           </div>
         )}
@@ -398,12 +398,12 @@ function ConfirmationBlock({ stored, firstName }: { stored: boolean; firstName: 
               <path d="M3 7L10 3L17 7M3 7V15A2 2 0 0 0 5 17H15A2 2 0 0 0 17 15V7M3 7L10 11L17 7" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
             <p className="font-serif text-xl sm:text-2xl text-[var(--color-brand-100)]">
-              Merci {firstName}, ton plan d&apos;achat arrive.
+              Merci {firstName}, votre plan d&apos;achat arrive.
             </p>
           </div>
           <p className="text-sm sm:text-base text-[var(--color-slate-300)] leading-relaxed">
-            Tu vas recevoir ton analyse complète par courriel dans les prochaines minutes,
-            et {brokersInlineNames()} te contactera pour valider tes chiffres avec toi.
+            Vous allez recevoir votre analyse complète par courriel dans les prochaines minutes,
+            et {brokersInlineNames()} vous contactera pour valider vos chiffres avec vous.
           </p>
         </>
       ) : (
@@ -414,11 +414,11 @@ function ConfirmationBlock({ stored, firstName }: { stored: boolean; firstName: 
               <path d="M7 10 L9.5 12.5 L14 8" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
             <p className="font-serif text-xl sm:text-2xl text-[var(--color-gold-soft)]">
-              Tes coordonnées n&apos;ont pas été conservées.
+              Vos coordonnées n&apos;ont pas été conservées.
             </p>
           </div>
           <p className="text-sm sm:text-base text-[var(--color-gold-soft)]/85 leading-relaxed">
-            Ton analyse reste affichée ici. Reviens nous voir quand tu voudras en parler
+            Votre analyse reste affichée ici. Revenez nous voir quand vous voudrez en parler
             à quelqu&apos;un.
           </p>
         </>

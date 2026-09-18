@@ -21,7 +21,7 @@ export function computeScoring(answers: Answers): ScoringResult {
   // ── Financement ───────────────────────────────────────────────────────────
   switch (answers.financingStatus) {
     case "preapproved":
-      add(18, "Préapprobation en main — tu peux déposer une offre solide", "positive");
+      add(18, "Préapprobation en main — vous pouvez déposer une offre solide", "positive");
       break;
     case "prequalified":
       add(12, "Préqualification obtenue — la base est faite", "positive");
@@ -98,13 +98,13 @@ export function computeScoring(answers: Answers): ScoringResult {
   if (capacity.maxByIncome > 0 && requis > 0) {
     const ratioManque = manque / requis;
     if (manque <= 0) {
-      add(15, "Mise de fonds suffisante pour ta pleine capacité", "positive");
+      add(15, "Mise de fonds suffisante pour votre pleine capacité", "positive");
     } else if (ratioManque <= 0.25) {
-      add(4, "Mise de fonds presque au niveau de ta capacité", "positive");
+      add(4, "Mise de fonds presque au niveau de votre capacité", "positive");
     } else if (ratioManque <= 0.6) {
-      add(-10, "Mise de fonds à compléter pour débloquer ta capacité", "negative");
+      add(-10, "Mise de fonds à compléter pour débloquer votre capacité", "negative");
     } else {
-      add(-20, "Mise de fonds encore éloignée de ta capacité", "negative");
+      add(-20, "Mise de fonds encore éloignée de votre capacité", "negative");
     }
   }
 

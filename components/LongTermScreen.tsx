@@ -53,11 +53,11 @@ export default function LongTermScreen({ onRestart }: Props) {
           Projet à préparer
         </p>
         <h1 className="font-serif text-4xl sm:text-5xl text-[var(--color-brand-100)] leading-[1.1] tracking-tight text-balance">
-          Plus de 12 mois ? C&apos;est le meilleur moment pour bâtir ton dossier.
+          Plus de 12 mois ? C&apos;est le meilleur moment pour bâtir votre dossier.
         </h1>
         <p className="mt-5 text-base sm:text-lg text-slate-400 leading-relaxed text-balance max-w-md mx-auto">
           À cette distance, une analyse de budget vieillirait mal — les taux et le
-          marché auront bougé. On t&apos;a préparé une vidéo qui explique exactement
+          marché auront bougé. On vous a préparé une vidéo qui explique exactement
           quoi faire d&apos;ici là : mise de fonds, CELIAPP, crédit et dossier de
           financement.
         </p>

@@ -33,8 +33,8 @@ export const QUESTIONS: QuestionDef[] = [
   {
     id: "financingStatus",
     kind: "choice",
-    title: "Es-tu déjà préqualifié pour une hypothèque ?",
-    subtitle: "Aucune mauvaise réponse — ça nous dit simplement où tu en es.",
+    title: "Êtes-vous déjà préqualifié pour une hypothèque ?",
+    subtitle: "Aucune mauvaise réponse — ça nous dit simplement où vous en êtes.",
     autoAdvance: true,
     choices: [
       { value: "preapproved", label: "Oui, je suis préapprouvé", hint: "Une lettre d'un prêteur en main" },
@@ -46,8 +46,8 @@ export const QUESTIONS: QuestionDef[] = [
   {
     id: "propertyType",
     kind: "choice",
-    title: "Quel type de propriété t'intéresse le plus ?",
-    subtitle: "Celui vers lequel tu penches aujourd'hui.",
+    title: "Quel type de propriété vous intéresse le plus ?",
+    subtitle: "Celui vers lequel vous penchez aujourd'hui.",
     autoAdvance: true,
     choices: [
       { value: "maison", label: "Maison unifamiliale", hint: "Détachée ou jumelée" },
@@ -60,14 +60,14 @@ export const QUESTIONS: QuestionDef[] = [
   {
     id: "regions",
     kind: "regions",
-    title: "Quels secteurs t'intéressent le plus ?",
-    subtitle: "Choisis-en jusqu'à 3 — ou écris le tien.",
+    title: "Quels secteurs vous intéressent le plus ?",
+    subtitle: "Choisissez-en jusqu'à 3 — ou écrivez le vôtre.",
   },
   {
     id: "purchaseTimeline",
     kind: "choice",
-    title: "Dans combien de temps aimerais-tu acheter ?",
-    subtitle: "Ton meilleur estimé, sans pression.",
+    title: "Dans combien de temps aimeriez-vous acheter ?",
+    subtitle: "Votre meilleur estimé, sans pression.",
     autoAdvance: true,
     choices: [
       { value: "asap", label: "Dès que je trouve la bonne propriété" },
@@ -80,8 +80,8 @@ export const QUESTIONS: QuestionDef[] = [
   {
     id: "journeyStage",
     kind: "choice",
-    title: "Où en es-tu dans ton parcours ?",
-    subtitle: "Pour adapter le plan à ton avancement réel.",
+    title: "Où en êtes-vous dans votre parcours ?",
+    subtitle: "Pour adapter le plan à votre avancement réel.",
     autoAdvance: true,
     choices: [
       { value: "curieux", label: "Je commence à peine à regarder" },
@@ -93,8 +93,8 @@ export const QUESTIONS: QuestionDef[] = [
   {
     id: "buyingWith",
     kind: "choice",
-    title: "Tu achètes seul(e) ou en couple ?",
-    subtitle: "Ça change ce qui est réaliste pour ton budget.",
+    title: "Achetez-vous seul(e) ou en couple ?",
+    subtitle: "Ça change ce qui est réaliste pour votre budget.",
     autoAdvance: true,
     choices: [
       { value: "seul", label: "Seul(e)" },
@@ -110,13 +110,13 @@ export const QUESTIONS: QuestionDef[] = [
   {
     id: "downPayment",
     kind: "currency",
-    title: "Combien as-tu de disponible pour la mise de fonds ?",
+    title: "Combien avez-vous de disponible pour la mise de fonds ?",
     subtitle: "Ce qui est réellement disponible aujourd'hui — REER et CELIAPP inclus.",
   },
   {
     id: "employment",
     kind: "choice",
-    title: "Quelle est ta situation d'emploi ?",
+    title: "Quelle est votre situation d'emploi ?",
     subtitle: "C'est ce que les prêteurs regardent en premier.",
     autoAdvance: true,
     choices: [

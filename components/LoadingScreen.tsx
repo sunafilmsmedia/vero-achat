@@ -22,7 +22,7 @@ export default function LoadingScreen() {
         </p>
 
         <h2 className="font-serif italic text-3xl sm:text-4xl lg:text-5xl ai-shimmer-fast leading-tight text-balance">
-          L&apos;IA calcule ton pouvoir d&apos;achat
+          L&apos;IA calcule votre pouvoir d&apos;achat
         </h2>
 
         <motion.p
@@ -31,8 +31,8 @@ export default function LoadingScreen() {
           transition={{ delay: 0.8, duration: 0.6 }}
           className="mt-8 text-sm text-slate-400"
         >
-          Quelques secondes — on croise ton revenu, ta mise de fonds et ton profil
-          d&apos;emploi pour te donner un portrait honnête.
+          Quelques secondes — on croise votre revenu, votre mise de fonds et votre profil
+          d&apos;emploi pour vous donner un portrait honnête.
         </motion.p>
 
         <div className="mt-10 flex justify-center gap-2">

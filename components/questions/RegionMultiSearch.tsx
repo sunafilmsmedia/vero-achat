@@ -161,7 +161,7 @@ export default function RegionMultiSearch({ value, onChange }: Props) {
                 <span className="block font-medium text-[var(--color-brand-100)] truncate">
                   Ajouter «&nbsp;{q}&nbsp;»
                 </span>
-                <span className="block text-[11px] text-slate-500">Ton secteur</span>
+                <span className="block text-[11px] text-slate-500">Votre secteur</span>
               </span>
             </button>
           )}

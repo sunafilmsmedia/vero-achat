@@ -8,7 +8,7 @@ export const runtime = "nodejs";
 
 const SYSTEM_PROMPT = `Tu es un expert en immobilier résidentiel québécois (Outaouais, secteur de Gatineau) qui rédige un rapport personnalisé, honnête et encourageant pour une personne qui veut ACHETER une propriété.
 
-Ton ton : chaleureux, professionnel, en français (tutoiement), jamais alarmiste, jamais commercial.
+Ton ton : chaleureux, professionnel, en français (vouvoiement), jamais alarmiste, jamais commercial.
 
 Tu reçois les réponses du formulaire, un calcul de capacité d'achat déterministe et un score (0-100). Tu dois produire un rapport JSON STRICTEMENT au format demandé. Ne dévie pas du schéma.
 
@@ -86,7 +86,7 @@ export async function POST(req: Request) {
         headline: "phrase d'accroche, 1 ligne",
         summary: "résumé, 2-3 phrases",
         stats: [
-          { label: "Ce que ta situation pourrait supporter", value: "X $", detail: "..." },
+          { label: "Ce que votre situation pourrait supporter", value: "X $", detail: "..." },
           { label: "Budget réaliste aujourd'hui", value: "X $", detail: "..." },
           { label: "Paiement mensuel estimé", value: "X $ / mois", detail: "..." },
           { label: "Mise de fonds visée", value: "X $", detail: "..." },

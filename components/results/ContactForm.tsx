@@ -30,12 +30,12 @@ export default function ContactForm({ answers, verdict, onSubmitted, gated }: Pr
 
   const handleSubmit = async () => {
     setError(null);
-    if (!name.trim()) return setError("Ton prénom est requis.");
-    if (!email.trim()) return setError("Ton courriel est requis.");
+    if (!name.trim()) return setError("Votre prénom est requis.");
+    if (!email.trim()) return setError("Votre courriel est requis.");
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
       return setError("Format de courriel invalide.");
     }
-    if (!phone.trim()) return setError("Ton téléphone est requis.");
+    if (!phone.trim()) return setError("Votre téléphone est requis.");
     const digits = phone.replace(/\D/g, "");
     if (digits.length < 10) return setError("Numéro de téléphone invalide.");
     if (!consent) return setError("Merci de cocher la case de consentement.");
@@ -74,7 +74,7 @@ export default function ContactForm({ answers, verdict, onSubmitted, gated }: Pr
       trackStep("soumis");
       onSubmitted({ stored: !!data.stored, firstName: firstNameRaw });
     } catch {
-      setError("Une erreur est survenue. Réessaie dans quelques secondes.");
+      setError("Une erreur est survenue. Réessayez dans quelques secondes.");
       setSubmitting(false);
     }
   };
@@ -101,13 +101,13 @@ export default function ContactForm({ answers, verdict, onSubmitted, gated }: Pr
 
       <h3 className="font-serif text-2xl sm:text-3xl text-[var(--color-brand-100)] leading-tight text-balance">
         {gated
-          ? "Où veux-tu recevoir ton analyse gratuite ?"
-          : "Où veux-tu recevoir ton plan d'achat ?"}
+          ? "Où voulez-vous recevoir votre analyse gratuite ?"
+          : "Où voulez-vous recevoir votre plan d'achat ?"}
       </h3>
       <p className="mt-2 text-sm sm:text-base text-slate-400 leading-relaxed">
         {gated
-          ? "Tu recevras ton portrait complet : capacité, budget réaliste et prochaines étapes."
-          : `${brokersInlineNames()} te revient avec les propriétés réellement disponibles dans ton budget — et les programmes auxquels tu as droit.`}
+          ? "Vous recevrez votre portrait complet : capacité, budget réaliste et prochaines étapes."
+          : `${brokersInlineNames()} vous revient avec les propriétés réellement disponibles dans votre budget — et les programmes auxquels vous avez droit.`}
       </p>
 
       <div className="mt-6 space-y-3">
@@ -121,7 +121,7 @@ export default function ContactForm({ answers, verdict, onSubmitted, gated }: Pr
           placeholder="marie@exemple.ca"
         />
         <Field
-          label="Ton prénom"
+          label="Votre prénom"
           required
           autoComplete="given-name"
           value={name}
@@ -136,7 +136,7 @@ export default function ContactForm({ answers, verdict, onSubmitted, gated }: Pr
           value={phone}
           onChange={setPhone}
           placeholder="(819) 555-0123"
-          helper="Pour qu'un courtier puisse te joindre rapidement."
+          helper="Pour qu'un courtier puisse vous joindre rapidement."
         />
       </div>
 

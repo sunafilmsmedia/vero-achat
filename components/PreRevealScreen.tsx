@@ -50,11 +50,11 @@ export default function PreRevealScreen({ onContinue }: Props) {
           Analyse complète
         </p>
         <h1 className="display-title text-[2rem] sm:text-5xl lg:text-6xl text-[var(--color-brand-100)] text-balance">
-          Ton portrait est prêt.
+          Votre portrait est prêt.
         </h1>
         <p className="mt-5 text-base sm:text-lg text-slate-400 leading-relaxed text-balance max-w-md mx-auto">
-          Entre tes informations pour débloquer ton pouvoir d&apos;achat et recevoir
-          ton analyse complète, entièrement gratuite.
+          Entrez vos informations pour débloquer votre pouvoir d&apos;achat et recevoir
+          votre analyse complète, entièrement gratuite.
         </p>
 
         {/* Bouton primaire — option recommandée */}

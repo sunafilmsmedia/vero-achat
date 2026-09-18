@@ -9,10 +9,10 @@ import { BRAND } from "./brand";
 import type { Answers, Report, ScoringResult, Verdict } from "./types";
 
 const HEADLINES: Record<Verdict, string> = {
-  pret: "Tu es prêt à passer à l'action.",
-  financement: "Presque prêt — il te manque la préqualification.",
-  mise_de_fonds: "Presque prêt — il te manque la mise de fonds.",
-  a_batir: "Ton projet se bâtit — et c'est très correct.",
+  pret: "Vous êtes prêt à passer à l'action.",
+  financement: "Presque prêt — il vous manque la préqualification.",
+  mise_de_fonds: "Presque prêt — il vous manque la mise de fonds.",
+  a_batir: "Votre projet se bâtit — et c'est très correct.",
 };
 
 const PROPERTY_LABEL: Record<string, string> = {
@@ -35,81 +35,81 @@ function summaryFor(verdict: Verdict, answers: Answers, scoring: ScoringResult):
 
   switch (verdict) {
     case "pret":
-      return `Ta situation te permet de viser une ${type} autour de ${formatCurrency(
+      return `Votre situation vous permet de viser une ${type} autour de ${formatCurrency(
         c.realisticBudget
-      )} dans ${BRAND.region}. Financement, mise de fonds et échéancier sont alignés : la prochaine étape, c'est de regarder ce qui est réellement disponible dans tes secteurs.`;
+      )} dans ${BRAND.region}. Financement, mise de fonds et échéancier sont alignés : la prochaine étape, c'est de regarder ce qui est réellement disponible dans vos secteurs.`;
     case "financement":
-      return `Ta mise de fonds soutient un budget d'environ ${formatCurrency(
+      return `Votre mise de fonds soutient un budget d'environ ${formatCurrency(
         c.realisticBudget
-      )}. Il te manque une seule pièce : la validation d'un prêteur. Une préqualification prend généralement moins de 48 heures et transforme ton budget en offre crédible.`;
+      )}. Il vous manque une seule pièce : la validation d'un prêteur. Une préqualification prend généralement moins de 48 heures et transforme votre budget en offre crédible.`;
     case "mise_de_fonds":
-      return `Ta situation te permet de viser gros. La seule pièce qui manque, c'est la mise de fonds — et ça, ça se bâtit. Avec ${formatCurrency(
+      return `Votre situation vous permet de viser gros. La seule pièce qui manque, c'est la mise de fonds — et ça, ça se bâtit. Avec ${formatCurrency(
         answers.downPayment ?? 0
-      )} aujourd'hui, tu vises ${formatCurrency(
+      )} aujourd'hui, vous visez ${formatCurrency(
         c.maxByDownPayment
-      )} ; il te manque ${formatCurrency(
+      )} ; il vous manque ${formatCurrency(
         c.downPaymentGap
-      )} pour débloquer ton plein potentiel.`;
+      )} pour débloquer votre plein potentiel.`;
     case "a_batir":
-      return `Aujourd'hui, les chiffres ne soutiennent pas encore un achat dans ${BRAND.region} — et le savoir maintenant t'évite de perdre du temps. En travaillant le revenu retenu et la mise de fonds, ton projet devient réaliste plus vite que tu penses.`;
+      return `Aujourd'hui, les chiffres ne soutiennent pas encore un achat dans ${BRAND.region} — et le savoir maintenant vous évite de perdre du temps. En travaillant le revenu retenu et la mise de fonds, votre projet devient réaliste plus vite que vous pensez.`;
   }
 }
 
 function stepsFor(verdict: Verdict, answers: Answers, scoring: ScoringResult) {
   const c = scoring.capacity;
   const secteurs = regionNames(answers);
-  const secteurTexte = secteurs.length ? secteurs.slice(0, 3).join(", ") : "tes secteurs";
+  const secteurTexte = secteurs.length ? secteurs.slice(0, 3).join(", ") : "vos secteurs";
 
   switch (verdict) {
     case "pret":
       return [
         {
-          title: "Confirmer ton budget avec ton prêteur",
-          description: `Fais valider ${formatCurrency(
+          title: "Confirmer votre budget avec votre prêteur",
+          description: `Faites valider ${formatCurrency(
             c.realisticBudget
           )} noir sur blanc — les dettes personnelles (auto, marges, cartes) ne sont pas incluses dans notre estimation.`,
         },
         {
-          title: "Cadrer tes critères avec un courtier",
-          description: `On traduit ton budget en propriétés réelles dans ${secteurTexte}, avec ce qui se vend vraiment à ce prix.`,
+          title: "Cadrer vos critères avec un courtier",
+          description: `On traduit votre budget en propriétés réelles dans ${secteurTexte}, avec ce qui se vend vraiment à ce prix.`,
         },
         {
           title: "Recevoir les nouveautés avant tout le monde",
-          description: "Une alerte sur mesure te donne quelques heures d'avance sur les propriétés qui correspondent à tes critères.",
+          description: "Une alerte sur mesure vous donne quelques heures d'avance sur les propriétés qui correspondent à vos critères.",
         },
         {
-          title: "Préparer ta stratégie d'offre",
+          title: "Préparer votre stratégie d'offre",
           description: `Conditions, inspection, délais : ce qui fait accepter une offre dans ${BRAND.region} n'est pas toujours le prix le plus élevé.`,
         },
       ];
     case "financement":
       return [
         {
-          title: "Obtenir ta préqualification",
+          title: "Obtenir votre préqualification",
           description: "48 heures et quelques documents suffisent. Sans ça, une offre a beaucoup moins de poids auprès d'un vendeur.",
         },
         {
-          title: "Rassembler tes documents",
+          title: "Rassembler vos documents",
           description: "Talons de paie, avis de cotisation, preuve de mise de fonds : les avoir prêts accélère tout le reste.",
         },
         {
-          title: "Valider ton budget réel",
+          title: "Valider votre budget réel",
           description: `Notre estimation de ${formatCurrency(
             c.realisticBudget
-          )} ne tient pas compte de tes dettes — le prêteur, lui, va les inclure.`,
+          )} ne tient pas compte de vos dettes — le prêteur, lui, va les inclure.`,
         },
         {
           title: "Commencer les visites en parallèle",
-          description: `Rien n'empêche de visiter dans ${secteurTexte} pendant que ton financement se confirme.`,
+          description: `Rien n'empêche de visiter dans ${secteurTexte} pendant que votre financement se confirme.`,
         },
       ];
     case "mise_de_fonds":
       return [
         {
-          title: "Chiffrer ton objectif de mise de fonds",
-          description: `Vise ${formatCurrency(
+          title: "Chiffrer votre objectif de mise de fonds",
+          description: `Visez ${formatCurrency(
             c.requiredDownForCapacity
-          )} pour débloquer ${formatCurrency(c.maxByIncome)} — il te manque ${formatCurrency(
+          )} pour débloquer ${formatCurrency(c.maxByIncome)} — il vous manque ${formatCurrency(
             c.downPaymentGap
           )}.`,
         },
@@ -122,18 +122,18 @@ function stepsFor(verdict: Verdict, answers: Answers, scoring: ScoringResult) {
           description: "Certains prêteurs offrent une remise (cash-back) qui peut combler une partie de l'écart. À valider avec un courtier hypothécaire.",
         },
         {
-          title: "Rester actif dans ta recherche",
-          description: `On peut déjà surveiller ${secteurTexte} pour toi et t'avertir quand une propriété entre dans ton budget actuel.`,
+          title: "Rester actif dans votre recherche",
+          description: `On peut déjà surveiller ${secteurTexte} pour vous et vous avertir quand une propriété entre dans votre budget actuel.`,
         },
       ];
     case "a_batir":
       return [
         {
           title: "Faire le point avec un courtier hypothécaire",
-          description: "Un appel gratuit permet de voir précisément quel revenu et quelle mise de fonds débloqueraient ton projet.",
+          description: "Un appel gratuit permet de voir précisément quel revenu et quelle mise de fonds débloqueraient votre projet.",
         },
         {
-          title: "Bâtir ta mise de fonds avec le CELIAPP",
+          title: "Bâtir votre mise de fonds avec le CELIAPP",
           description: "Jusqu'à 8 000 $ par année, déductible d'impôt, et retirable sans impôt pour une première propriété.",
         },
         {
@@ -142,7 +142,7 @@ function stepsFor(verdict: Verdict, answers: Answers, scoring: ScoringResult) {
         },
         {
           title: "Se donner une échéance réaliste",
-          description: "Un plan sur 12 à 24 mois vaut mieux qu'une offre refusée. On reste disponibles quand tu seras prêt.",
+          description: "Un plan sur 12 à 24 mois vaut mieux qu'une offre refusée. On reste disponibles quand vous serez prêt.",
         },
       ];
   }
@@ -151,7 +151,7 @@ function stepsFor(verdict: Verdict, answers: Answers, scoring: ScoringResult) {
 function marketInsightFor(answers: Answers): string {
   const secteurs = regionNames(answers);
   const secteur = secteurs[0] ?? BRAND.region;
-  return `Dans ${secteur}, le budget qui compte n'est pas celui affiché : ce sont les propriétés réellement disponibles dans ta fourchette. Un courtier acheteur voit les inscriptions au moment où elles entrent sur le marché, et connaît les propriétés qui n'ont pas encore été annoncées.`;
+  return `Dans ${secteur}, le budget qui compte n'est pas celui affiché : ce sont les propriétés réellement disponibles dans votre fourchette. Un courtier acheteur voit les inscriptions au moment où elles entrent sur le marché, et connaît les propriétés qui n'ont pas encore été annoncées.`;
 }
 
 export function buildFallbackReport(answers: Answers, scoring: ScoringResult): Report {
@@ -160,17 +160,17 @@ export function buildFallbackReport(answers: Answers, scoring: ScoringResult): R
 
   const stats = [
     {
-      label: "Ce que ta situation pourrait supporter",
+      label: "Ce que votre situation pourrait supporter",
       value: formatCurrency(c.maxByIncome),
-      detail: "Estimation basée sur le revenu du ménage, ton profil d'emploi et la mise de fonds minimale exigée.",
+      detail: "Estimation basée sur le revenu du ménage, votre profil d'emploi et la mise de fonds minimale exigée.",
     },
     {
       label: "Budget réaliste aujourd'hui",
       value: formatCurrency(c.realisticBudget),
       detail:
         c.limitedBy === "mise_de_fonds"
-          ? "Ce que ta mise de fonds actuelle te permet de viser dès maintenant."
-          : "Ce que ta situation globale te permet de viser dès maintenant.",
+          ? "Ce que votre mise de fonds actuelle vous permet de viser dès maintenant."
+          : "Ce que votre situation globale vous permet de viser dès maintenant.",
     },
     {
       label: "Paiement mensuel estimé",
@@ -184,8 +184,8 @@ export function buildFallbackReport(answers: Answers, scoring: ScoringResult): R
       value: formatCurrency(c.requiredDownForCapacity),
       detail:
         c.downPaymentGap > 0
-          ? `Il te manque ${formatCurrency(c.downPaymentGap)} pour débloquer ta pleine capacité.`
-          : "Ta mise de fonds actuelle couvre déjà le minimum exigé pour ta capacité.",
+          ? `Il vous manque ${formatCurrency(c.downPaymentGap)} pour débloquer votre pleine capacité.`
+          : "Votre mise de fonds actuelle couvre déjà le minimum exigé pour votre capacité.",
     },
   ];
 

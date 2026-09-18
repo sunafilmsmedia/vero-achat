@@ -22,13 +22,13 @@ const PROGRAMMES = [
     nom: "RAP",
     montant: "jusqu'à 60 000 $",
     detail:
-      "Le régime d'accession à la propriété permet de retirer ton REER sans impôt pour ta mise de fonds, remboursable sur 15 ans.",
+      "Le régime d'accession à la propriété permet de retirer votre REER sans impôt pour votre mise de fonds, remboursable sur 15 ans.",
   },
   {
     nom: "Crédits d'impôt premier acheteur",
     montant: "jusqu'à 2 900 $",
     detail:
-      "Environ 1 500 $ au fédéral et 1 400 $ au Québec, réclamés dans ta déclaration l'année de l'achat.",
+      "Environ 1 500 $ au fédéral et 1 400 $ au Québec, réclamés dans votre déclaration l'année de l'achat.",
   },
   {
     nom: "Remise en argent hypothécaire",
@@ -53,11 +53,11 @@ export default function ProgramsBlock({ gap }: Props) {
       className="mt-12"
     >
       <h3 className="text-xs uppercase tracking-[0.18em] text-slate-500 mb-2">
-        Programmes pour bâtir ta mise de fonds
+        Programmes pour bâtir votre mise de fonds
       </h3>
       {gap > 0 && (
         <p className="text-sm text-slate-400 mb-5 leading-relaxed">
-          Il te manque {formatCurrency(gap)}. Plusieurs de ces programmes se cumulent —
+          Il vous manque {formatCurrency(gap)}. Plusieurs de ces programmes se cumulent —
           c&apos;est souvent plus rapide qu&apos;on pense.
         </p>
       )}
@@ -83,7 +83,7 @@ export default function ProgramsBlock({ gap }: Props) {
       </div>
 
       <p className="mt-4 text-[11px] text-slate-500 italic leading-relaxed">
-        Montants indicatifs. L&apos;admissibilité dépend de ta situation et doit être
+        Montants indicatifs. L&apos;admissibilité dépend de votre situation et doit être
         confirmée avec un courtier hypothécaire.
       </p>
     </motion.section>

@@ -224,7 +224,7 @@ export function buildFallbackReport(answers: Answers, scoring: ScoringResult): R
     {
       label: "Paiement mensuel estimé",
       value: `${formatCurrency(c.monthlyPayment)} / mois`,
-      detail: `Capital et intérêts seulement, au taux d'admissibilité prudent de ${c.qualifyingRate
+      detail: `Capital et intérêts seulement, à un taux estimé de ${c.mortgageRate
         .toString()
         .replace(".", ",")} % sur ${c.amortizationYears} ans. Taxes et assurances en sus.`,
     },

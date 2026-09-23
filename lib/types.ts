@@ -93,7 +93,7 @@ export interface CapacityResult {
   // Paiement hypothécaire mensuel estimé sur le budget réaliste.
   monthlyPayment: number;
   limitedBy: LimitingFactor;
-  qualifyingRate: number;
+  mortgageRate: number;
   amortizationYears: number;
   incomeMultiple: number;
 }

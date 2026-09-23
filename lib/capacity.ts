@@ -28,8 +28,11 @@ const MULTIPLE_REVENU = 4.5;
 // Demi-largeur de la fourchette affichée, de part et d'autre de l'estimation.
 const MARGE_FOURCHETTE = 50_000;
 
-// Taux d'admissibilité et amortissement — servent au paiement mensuel estimé.
-const TAUX_ADMISSIBILITE = 6.25;
+// Taux hypothécaire et amortissement — servent au paiement mensuel estimé.
+// Ce n'est PAS le taux d'admissibilité (test de simulation de crise) : la
+// capacité vient du multiple de revenu, donc le paiement doit refléter un taux
+// de contrat réaliste.
+const TAUX_HYPOTHECAIRE = 5;
 const AMORTISSEMENT_ANS = 25;
 
 // Prime SCHL ajoutée au prêt quand la mise de fonds est sous 20 %.
@@ -70,9 +73,9 @@ export function prixMaxSelonMiseDeFonds(mise: number): number {
   return Math.max(PLAFOND_ASSURE, mise / 0.2);
 }
 
-// Paiement mensuel par dollar emprunté, au taux d'admissibilité.
+// Paiement mensuel par dollar emprunté, au taux hypothécaire estimé.
 function facteurPaiement(): number {
-  const r = TAUX_ADMISSIBILITE / 100 / 12;
+  const r = TAUX_HYPOTHECAIRE / 100 / 12;
   const n = AMORTISSEMENT_ANS * 12;
   return r / (1 - Math.pow(1 + r, -n));
 }
@@ -144,7 +147,7 @@ export function computeCapacity(answers: Answers): CapacityResult {
     downPaymentGap,
     monthlyPayment,
     limitedBy,
-    qualifyingRate: TAUX_ADMISSIBILITE,
+    mortgageRate: TAUX_HYPOTHECAIRE,
     amortizationYears: AMORTISSEMENT_ANS,
     incomeMultiple: MULTIPLE_REVENU,
   };

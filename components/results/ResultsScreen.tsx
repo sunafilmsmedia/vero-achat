@@ -281,8 +281,8 @@ export default function ResultsScreen({ analyze, answers, revealChoice, onRestar
       <p className="mt-10 text-[11px] text-slate-500 leading-relaxed">
         La fourchette vient de la règle utilisée en courtage : environ{" "}
         {capacity.incomeMultiple.toString().replace(".", ",")} × le revenu brut annuel retenu.
-        Le paiement mensuel est estimé au taux d&apos;admissibilité prudent de{" "}
-        {capacity.qualifyingRate.toString().replace(".", ",")} % sur {capacity.amortizationYears} ans.
+        Le paiement mensuel est estimé à un taux de{" "}
+        {capacity.mortgageRate.toString().replace(".", ",")} % sur {capacity.amortizationYears} ans.
         Vos dettes personnelles (auto, marges, cartes) ne sont pas incluses : le montant
         confirmé par un prêteur peut différer. Ce n&apos;est ni une préapprobation ni un
         engagement de prêt.

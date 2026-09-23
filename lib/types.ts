@@ -28,7 +28,7 @@ export type JourneyStage =
   | "vendre_pour_acheter" // je dois vendre pour acheter
   | "separation"; // achat dans un contexte de séparation
 
-export type BuyingWith = "seul" | "couple";
+export type BuyingWith = "seul" | "co_acheteur" | "co_acheteurs";
 
 export type EmploymentStatus =
   | "salarie_permanent"

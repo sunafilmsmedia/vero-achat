@@ -93,19 +93,20 @@ export const QUESTIONS: QuestionDef[] = [
   {
     id: "buyingWith",
     kind: "choice",
-    title: "Achetez-vous seul(e) ou en couple ?",
+    title: "Achetez-vous seul(e) ou avec un co-acheteur ?",
     subtitle: "Ça change ce qui est réaliste pour votre budget.",
     autoAdvance: true,
     choices: [
       { value: "seul", label: "Seul(e)" },
-      { value: "couple", label: "En couple", hint: "Ou avec un co-acheteur" },
+      { value: "co_acheteur", label: "Avec un co-acheteur", hint: "Conjoint(e), parent, ami(e)…" },
+      { value: "co_acheteurs", label: "Avec plus d'un co-acheteur", hint: "Deux co-acheteurs ou plus" },
     ],
   },
   {
     id: "householdIncome",
     kind: "currency",
     title: "Quel est le revenu brut annuel du ménage ?",
-    subtitle: "Avant impôts, en additionnant tous les revenus du ménage.",
+    subtitle: "Avant impôts, en additionnant les revenus de tous les acheteurs.",
   },
   {
     id: "downPayment",

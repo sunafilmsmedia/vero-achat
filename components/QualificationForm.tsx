@@ -27,7 +27,7 @@ const STEP_NAMES: Record<string, string> = {
   regions: "secteurs",
   purchaseTimeline: "echeancier",
   journeyStage: "parcours",
-  buyingWith: "seul_ou_couple",
+  buyingWith: "seul_ou_co_acheteur",
   householdIncome: "revenu_menage",
   downPayment: "mise_de_fonds",
   employment: "emploi",
@@ -301,7 +301,7 @@ function QuestionRenderer({ questionId, answers, choices, autoAdvance, onUpdate 
           value={answers.householdIncome}
           onChange={(v) => onUpdate({ householdIncome: v }, false)}
           placeholder="95 000"
-          helper="Le total avant impôts de tous les revenus du ménage, par année."
+          helper="Le total avant impôts des revenus de tous les acheteurs, par année."
         />
       );
     case "downPayment":

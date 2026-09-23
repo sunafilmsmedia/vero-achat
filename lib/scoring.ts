@@ -88,8 +88,10 @@ export function computeScoring(answers: Answers): ScoringResult {
       break;
   }
 
-  if (answers.buyingWith === "couple") {
+  if (answers.buyingWith === "co_acheteur") {
     add(2, "Achat à deux — deux revenus, plus de flexibilité", "positive");
+  } else if (answers.buyingWith === "co_acheteurs") {
+    add(2, "Achat à plusieurs — les revenus se combinent (tous devront être au prêt)", "positive");
   }
 
   // ── Mise de fonds vs capacité ─────────────────────────────────────────────

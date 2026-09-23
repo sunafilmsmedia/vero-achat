@@ -88,7 +88,11 @@ export async function POST(req: Request) {
     verdict: scoring.verdict, // pret | financement | mise_de_fonds | a_batir
 
     // Capacité d'achat (montants indicatifs, jamais une préapprobation)
-    capaciteMax: c.maxByIncome,
+    capaciteEstimee: c.maxByIncome,
+    capaciteMin: c.capacityLow,
+    capaciteMax: c.capacityHigh,
+    sourceMiseDeFonds: c.downPaymentSource, // epargne | vente
+    valeurProprieteActuelle: c.currentHomeValue,
     budgetRealiste: c.realisticBudget,
     plafondMiseDeFonds: c.maxByDownPayment,
     miseDeFondsVisee: c.requiredDownForCapacity,
@@ -106,6 +110,7 @@ export async function POST(req: Request) {
     buyingWith: answers.buyingWith ?? "",
     householdIncome: answers.householdIncome ?? 0,
     downPayment: answers.downPayment ?? 0,
+    currentHomeValue: answers.currentHomeValue ?? 0,
     employment: answers.employment ?? "",
 
     // Données brutes

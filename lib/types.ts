@@ -55,19 +55,33 @@ export interface Answers {
   buyingWith?: BuyingWith;
   householdIncome?: number;
   downPayment?: number;
+  // Posé à la place de la mise de fonds quand la personne doit vendre avant
+  // d'acheter : sa mise de fonds sortira de cette vente.
+  currentHomeValue?: number;
   employment?: EmploymentStatus;
 }
 
 // ── Capacité d'achat (calcul déterministe, lib/capacity.ts) ─────────────────
 
-export type LimitingFactor = "mise_de_fonds" | "revenu" | "equilibre";
+export type LimitingFactor =
+  | "mise_de_fonds"
+  | "revenu"
+  | "equilibre"
+  | "vente_a_confirmer"; // la mise de fonds viendra de la vente en cours
 
 export interface CapacityResult {
   // Revenu retenu après ajustement selon le profil d'emploi.
   incomeConsidered: number;
-  // Prix maximal soutenu par la situation (revenu + emploi), en supposant la
-  // mise de fonds minimale disponible.
+  // Estimation centrale : 4,5 × le revenu retenu. Jamais affichée telle quelle —
+  // c'est la fourchette ci-dessous qu'on montre au visiteur.
   maxByIncome: number;
+  // Fourchette affichée (± 50 000 $ autour de l'estimation centrale).
+  capacityLow: number;
+  capacityHigh: number;
+  // D'où viendra la mise de fonds : épargne déclarée, ou vente en cours.
+  downPaymentSource: "epargne" | "vente";
+  // Valeur estimée de la propriété actuelle (0 si la personne n'a rien à vendre).
+  currentHomeValue: number;
   // Plafond imposé par la mise de fonds ACTUELLE (règles minimales du Canada).
   maxByDownPayment: number;
   // Budget réaliste aujourd'hui = le plus petit des deux.
@@ -81,6 +95,7 @@ export interface CapacityResult {
   limitedBy: LimitingFactor;
   qualifyingRate: number;
   amortizationYears: number;
+  incomeMultiple: number;
 }
 
 // ── Scoring ─────────────────────────────────────────────────────────────────

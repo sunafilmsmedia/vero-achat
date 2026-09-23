@@ -30,6 +30,7 @@ const STEP_NAMES: Record<string, string> = {
   buyingWith: "seul_ou_co_acheteur",
   householdIncome: "revenu_menage",
   downPayment: "mise_de_fonds",
+  currentHomeValue: "valeur_propriete",
   employment: "emploi",
 };
 
@@ -311,6 +312,15 @@ function QuestionRenderer({ questionId, answers, choices, autoAdvance, onUpdate 
           onChange={(v) => onUpdate({ downPayment: v }, false)}
           placeholder="20 000"
           helper="Aucun jugement — même 0 $ est une réponse utile."
+        />
+      );
+    case "currentHomeValue":
+      return (
+        <CurrencyQuestion
+          value={answers.currentHomeValue}
+          onChange={(v) => onUpdate({ currentHomeValue: v }, false)}
+          placeholder="400 000"
+          helper="Une estimation suffit — une courtière la validera avec vous."
         />
       );
     case "employment":

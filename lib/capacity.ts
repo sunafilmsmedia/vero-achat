@@ -1,41 +1,38 @@
 // ============================================================================
 // Capacité d'achat — calcul déterministe
 // ----------------------------------------------------------------------------
-// Deux plafonds sont calculés séparément, puis comparés :
+// Règle de base du courtage : une personne se qualifie généralement autour de
+// 4,5 × son revenu brut annuel. On part de là, puis on compare avec ce que la
+// mise de fonds permet réellement.
 //
-//   1. maxByIncome        ce que le REVENU du ménage peut supporter (test de
-//                         simulation de crise, ABD 39 %, amortissement 25 ans),
-//                         en supposant la mise de fonds minimale disponible.
+//   1. maxByIncome        4,5 × le revenu retenu (pondéré selon l'emploi).
+//                         Affiché sous forme de FOURCHETTE (± 50 000 $) : le
+//                         chiffre exact dépend des dettes, des paiements
+//                         mensuels et du prêteur.
 //   2. maxByDownPayment   ce que la MISE DE FONDS actuelle permet, selon les
 //                         règles minimales canadiennes (5 % / 10 % / 20 %).
 //
-// L'écart entre les deux est le cœur du produit : quand la mise de fonds est
-// le facteur limitant, on chiffre exactement ce qu'il manque.
+// Cas particulier : quelqu'un qui doit VENDRE avant d'acheter n'a pas de mise
+// de fonds à déclarer — sa mise de fonds sortira de la vente. On lui demande
+// plutôt la valeur de sa propriété, et on ne calcule aucun « écart ».
 //
-// ⚠️ Aucune de ces valeurs n'est une préapprobation. Les dettes personnelles
-// (auto, marges, cartes) ne sont pas demandées et ne sont donc pas déduites :
-// le résultat réel d'un prêteur sera généralement plus bas.
+// ⚠️ Rien ici n'est une préapprobation. Les dettes personnelles (auto, marges,
+// cartes) ne sont pas demandées et ne sont donc pas déduites.
 // ============================================================================
 
 import type { Answers, CapacityResult, EmploymentStatus, LimitingFactor } from "./types";
 
-// Taux d'admissibilité (test de simulation de crise). Volontairement prudent.
+// Multiple du revenu brut annuel utilisé pour estimer la capacité.
+const MULTIPLE_REVENU = 4.5;
+
+// Demi-largeur de la fourchette affichée, de part et d'autre de l'estimation.
+const MARGE_FOURCHETTE = 50_000;
+
+// Taux d'admissibilité et amortissement — servent au paiement mensuel estimé.
 const TAUX_ADMISSIBILITE = 6.25;
 const AMORTISSEMENT_ANS = 25;
 
-// Amortissement brut de la dette : part du revenu brut consacrée à l'habitation.
-const RATIO_ABD = 0.39;
-
-// Charges mensuelles incluses dans l'ABD.
-const CHAUFFAGE_MENSUEL = 150;
-const CHAUFFAGE_CONDO = 100;
-// Frais de copropriété : les prêteurs en comptent 50 %.
-const FRAIS_CONDO_MENSUEL = 260;
-// Taxes municipales + scolaires estimées, en % du prix, par année (Outaouais).
-const TAUX_TAXES_ANNUEL = 0.0095;
-
 // Prime SCHL ajoutée au prêt quand la mise de fonds est sous 20 %.
-// On suppose la mise de fonds minimale pour le calcul de capacité (5-9,99 %).
 const PRIME_SCHL_MIN = 0.04;
 
 // Plafond des prêts assurés : au-delà, il faut 20 % de mise de fonds.
@@ -85,55 +82,40 @@ export function paiementMensuel(pret: number): number {
   return Math.round(pret * facteurPaiement());
 }
 
-// Prix maximal soutenu par le revenu, en supposant la mise de fonds minimale.
-// Les taxes municipales dépendent du prix, donc on itère jusqu'à convergence.
-function prixMaxSelonRevenu(revenuRetenu: number, isCondo: boolean): number {
-  if (revenuRetenu <= 0) return 0;
-
-  const brutMensuel = revenuRetenu / 12;
-  const chauffage = isCondo ? CHAUFFAGE_CONDO : CHAUFFAGE_MENSUEL;
-  const condo = isCondo ? FRAIS_CONDO_MENSUEL * 0.5 : 0;
-  const plafondHabitation = brutMensuel * RATIO_ABD;
-  const facteur = facteurPaiement();
-
-  let prix = 350_000;
-  for (let i = 0; i < 40; i++) {
-    const taxes = (prix * TAUX_TAXES_ANNUEL) / 12;
-    const dispoHypotheque = plafondHabitation - chauffage - condo - taxes;
-    if (dispoHypotheque <= 0) return 0;
-
-    // Le paiement porte sur le prêt assuré (prime SCHL incluse).
-    const pretAssure = dispoHypotheque / facteur;
-    const pretBase = pretAssure / (1 + PRIME_SCHL_MIN);
-    const mise = miseDeFondsMinimale(prix);
-    const nouveauPrix = pretBase + mise;
-
-    if (Math.abs(nouveauPrix - prix) < 250) {
-      prix = nouveauPrix;
-      break;
-    }
-    prix = nouveauPrix;
-  }
-  return Math.max(0, prix);
+// Une personne qui doit vendre avant d'acheter : sa mise de fonds viendra du
+// produit de la vente, pas de son compte d'épargne.
+export function vendAvantDAcheter(answers: Answers): boolean {
+  return answers.journeyStage === "vendre_pour_acheter";
 }
 
 export function computeCapacity(answers: Answers): CapacityResult {
   const revenu = Math.max(0, answers.householdIncome ?? 0);
-  const mise = Math.max(0, answers.downPayment ?? 0);
-  const isCondo = answers.propertyType === "condo";
+  const estVendeur = vendAvantDAcheter(answers);
+  const mise = estVendeur ? 0 : Math.max(0, answers.downPayment ?? 0);
+  const currentHomeValue = estVendeur ? Math.max(0, answers.currentHomeValue ?? 0) : 0;
 
   const facteurEmploi = answers.employment ? FACTEUR_EMPLOI[answers.employment] : 0.9;
   const incomeConsidered = Math.round(revenu * facteurEmploi);
 
-  const maxByIncome = round(prixMaxSelonRevenu(incomeConsidered, isCondo));
-  const maxByDownPayment = round(prixMaxSelonMiseDeFonds(mise));
-  const realisticBudget = Math.min(maxByIncome, maxByDownPayment);
+  // Capacité = 4,5 × le revenu retenu, arrondie pour ne pas afficher de faux
+  // chiffre précis. La fourchette, elle, est ce qu'on montre au visiteur.
+  const maxByIncome = round(incomeConsidered * MULTIPLE_REVENU, 5_000);
+  const capacityLow = Math.max(0, maxByIncome - MARGE_FOURCHETTE);
+  const capacityHigh = maxByIncome > 0 ? maxByIncome + MARGE_FOURCHETTE : 0;
 
   const requiredDownForCapacity = Math.round(miseDeFondsMinimale(maxByIncome));
-  const downPaymentGap = Math.max(0, requiredDownForCapacity - mise);
 
-  // Prêt correspondant au budget réaliste (prime SCHL incluse si < 20 %).
-  const miseUtilisee = Math.min(mise, realisticBudget);
+  const maxByDownPayment = estVendeur ? 0 : round(prixMaxSelonMiseDeFonds(mise));
+  const realisticBudget = estVendeur ? maxByIncome : Math.min(maxByIncome, maxByDownPayment);
+  const downPaymentGap = estVendeur
+    ? 0
+    : Math.max(0, requiredDownForCapacity - mise);
+
+  // Paiement estimé sur le budget réaliste. Pour un vendeur, on suppose la
+  // mise de fonds minimale (le produit net de sa vente reste à confirmer).
+  const miseUtilisee = estVendeur
+    ? Math.min(requiredDownForCapacity, realisticBudget)
+    : Math.min(mise, realisticBudget);
   const pretBase = Math.max(0, realisticBudget - miseUtilisee);
   const ratioMise = realisticBudget > 0 ? miseUtilisee / realisticBudget : 0;
   const prime = ratioMise >= 0.2 ? 0 : PRIME_SCHL_MIN;
@@ -141,7 +123,9 @@ export function computeCapacity(answers: Answers): CapacityResult {
 
   // Facteur limitant : on tolère 3 % d'écart avant de trancher.
   let limitedBy: LimitingFactor = "equilibre";
-  if (maxByIncome > 0 && maxByDownPayment < maxByIncome * 0.97) {
+  if (estVendeur) {
+    limitedBy = "vente_a_confirmer";
+  } else if (maxByIncome > 0 && maxByDownPayment < maxByIncome * 0.97) {
     limitedBy = "mise_de_fonds";
   } else if (maxByDownPayment > 0 && maxByIncome < maxByDownPayment * 0.97) {
     limitedBy = "revenu";
@@ -150,6 +134,10 @@ export function computeCapacity(answers: Answers): CapacityResult {
   return {
     incomeConsidered,
     maxByIncome,
+    capacityLow,
+    capacityHigh,
+    downPaymentSource: estVendeur ? "vente" : "epargne",
+    currentHomeValue,
     maxByDownPayment,
     realisticBudget,
     requiredDownForCapacity,
@@ -158,5 +146,6 @@ export function computeCapacity(answers: Answers): CapacityResult {
     limitedBy,
     qualifyingRate: TAUX_ADMISSIBILITE,
     amortizationYears: AMORTISSEMENT_ANS,
+    incomeMultiple: MULTIPLE_REVENU,
   };
 }

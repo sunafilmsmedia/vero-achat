@@ -9,6 +9,7 @@ export type QuestionId =
   | "buyingWith"
   | "householdIncome"
   | "downPayment"
+  | "currentHomeValue"
   | "employment";
 
 export type QuestionKind = "choice" | "regions" | "currency";
@@ -113,6 +114,16 @@ export const QUESTIONS: QuestionDef[] = [
     kind: "currency",
     title: "Combien avez-vous de disponible pour la mise de fonds ?",
     subtitle: "Ce qui est réellement disponible aujourd'hui — REER et CELIAPP inclus.",
+    // Quelqu'un qui doit vendre avant d'acheter n'a pas de mise de fonds à
+    // déclarer : elle sortira de sa vente. On lui pose l'autre question.
+    showIf: (a) => a.journeyStage !== "vendre_pour_acheter",
+  },
+  {
+    id: "currentHomeValue",
+    kind: "currency",
+    title: "Combien vaut votre propriété actuelle, selon vous ?",
+    subtitle: "Votre estimation — c'est de là que viendra votre mise de fonds.",
+    showIf: (a) => a.journeyStage === "vendre_pour_acheter",
   },
   {
     id: "employment",
@@ -145,6 +156,7 @@ export function isAnswered(q: QuestionDef, a: Answers): boolean {
     case "buyingWith": return !!a.buyingWith;
     case "householdIncome": return typeof a.householdIncome === "number" && a.householdIncome > 0;
     case "downPayment": return typeof a.downPayment === "number" && a.downPayment >= 0;
+    case "currentHomeValue": return typeof a.currentHomeValue === "number" && a.currentHomeValue > 0;
     case "employment": return !!a.employment;
   }
 }

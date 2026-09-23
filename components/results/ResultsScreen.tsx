@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { formatCurrency } from "@/lib/format";
-import { VERDICT_HEADLINES } from "@/lib/fallbackReport";
+import { NUANCE_CAPACITE, VERDICT_HEADLINES, formatRange } from "@/lib/fallbackReport";
 import { BRAND, brokersInlineNames } from "@/lib/brand";
 import type { AnalyzeResponse, Answers, CapacityResult, Verdict } from "@/lib/types";
 import ContactForm from "./ContactForm";
@@ -279,11 +279,13 @@ export default function ResultsScreen({ analyze, answers, revealChoice, onRestar
 
       {/* Avis */}
       <p className="mt-10 text-[11px] text-slate-500 leading-relaxed">
-        Ces montants sont une estimation prudente calculée à un taux d&apos;admissibilité
-        de {capacity.qualifyingRate.toString().replace(".", ",")} % sur {capacity.amortizationYears} ans.
+        La fourchette vient de la règle utilisée en courtage : environ{" "}
+        {capacity.incomeMultiple.toString().replace(".", ",")} × le revenu brut annuel retenu.
+        Le paiement mensuel est estimé au taux d&apos;admissibilité prudent de{" "}
+        {capacity.qualifyingRate.toString().replace(".", ",")} % sur {capacity.amortizationYears} ans.
         Vos dettes personnelles (auto, marges, cartes) ne sont pas incluses : le montant
-        confirmé par un prêteur peut être plus bas. Ce n&apos;est ni une préapprobation
-        ni un engagement de prêt.
+        confirmé par un prêteur peut différer. Ce n&apos;est ni une préapprobation ni un
+        engagement de prêt.
       </p>
 
       {/* Footer */}
@@ -311,7 +313,8 @@ function CapacityCard({
   capacity: CapacityResult;
   downPayment: number;
 }) {
-  const hasGap = capacity.downPaymentGap > 0;
+  const isVendeur = capacity.downPaymentSource === "vente";
+  const hasGap = !isVendeur && capacity.downPaymentGap > 0;
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
@@ -335,14 +338,23 @@ function CapacityCard({
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="font-serif text-5xl sm:text-6xl text-[var(--color-brand-100)] leading-none mt-3"
+          className="font-serif text-[2rem] sm:text-5xl text-[var(--color-brand-100)] leading-tight mt-3"
         >
-          {formatCurrency(capacity.maxByIncome)}
+          {formatRange(capacity.capacityLow, capacity.capacityHigh)}
         </motion.p>
-        <p className="mt-3 text-sm text-slate-400 leading-relaxed">
-          Estimation basée sur le revenu du ménage, votre profil d&apos;emploi et la mise
-          de fonds minimale exigée. 💪
-        </p>
+        <p className="mt-3 text-sm text-slate-400 leading-relaxed">{NUANCE_CAPACITE}</p>
+
+        {isVendeur && (
+          <div className="mt-6 rounded-2xl bg-[var(--color-gold)]/[0.08] border border-[var(--color-gold)]/25 px-4 py-3.5">
+            <p className="text-sm text-[var(--color-brand-100)] leading-relaxed">
+              🏡 Votre mise de fonds viendra de la vente de votre propriété, que vous
+              estimez à{" "}
+              <strong className="font-semibold">{formatCurrency(capacity.currentHomeValue)}</strong>.
+              On confirmera le montant net avec vous — c&apos;est lui qui fixera votre
+              budget réel.
+            </p>
+          </div>
+        )}
 
         {hasGap && (
           <div className="mt-6 space-y-3">
@@ -365,7 +377,7 @@ function CapacityCard({
           </div>
         )}
 
-        {!hasGap && capacity.realisticBudget > 0 && (
+        {!hasGap && !isVendeur && capacity.realisticBudget > 0 && (
           <div className="mt-6 rounded-2xl bg-emerald-500/[0.08] border border-emerald-500/25 px-4 py-3.5">
             <p className="text-sm text-[var(--color-brand-100)] leading-relaxed">
               ✅ Votre mise de fonds de {formatCurrency(downPayment)} couvre déjà le minimum

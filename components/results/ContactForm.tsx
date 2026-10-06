@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { trackLeadWithMatching } from "../MetaPixel";
 import { trackStep } from "@/lib/track";
+import { getFbclid } from "@/lib/attribution";
 import { BRAND, brokersInlineNames } from "@/lib/brand";
 import type { Answers, Verdict } from "@/lib/types";
 
@@ -52,6 +53,7 @@ export default function ContactForm({ answers, verdict, onSubmitted, gated }: Pr
           consent,
           answers,
           leadType: "acheteur",
+          fbclid: getFbclid(),
         }),
       });
       const data = await res.json();

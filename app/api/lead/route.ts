@@ -9,6 +9,7 @@ export const runtime = "nodejs";
 interface IncomingBody extends Partial<LeadPayload> {
   answers?: Answers;
   leadType?: LeadType;
+  fbclid?: string;
 }
 
 function splitName(full: string): { firstName: string; lastName: string } {
@@ -48,7 +49,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  const { name, phone, email, consent, answers } = body;
+  const { name, phone, email, consent, answers, fbclid } = body;
   const leadType: LeadType = body.leadType ?? "acheteur";
 
   if (!name || !email || !consent || !answers) {
@@ -82,6 +83,10 @@ export async function POST(req: Request) {
     fullName: name,
     phone: phone ?? "",
     email,
+
+    // Attribution pub Meta — toujours présent (vide si le lead ne vient pas
+    // d'un clic sur une pub Facebook/Instagram).
+    fbclid: fbclid ?? "",
 
     // Scoring
     score: scoring.score,

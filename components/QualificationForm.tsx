@@ -32,6 +32,7 @@ const STEP_NAMES: Record<string, string> = {
   downPayment: "mise_de_fonds",
   currentHomeValue: "valeur_propriete",
   employment: "emploi",
+  workingWithBroker: "courtier_deja",
 };
 
 // Champs dont la valeur est un choix prédéfini → sûr à transmettre.
@@ -42,6 +43,7 @@ const CHOICE_FIELDS = new Set([
   "journeyStage",
   "buyingWith",
   "employment",
+  "workingWithBroker",
 ]);
 
 function trackAnswer(partial: Partial<Answers>) {
@@ -329,6 +331,14 @@ function QuestionRenderer({ questionId, answers, choices, autoAdvance, onUpdate 
           choices={choices!}
           value={answers.employment}
           onChange={(v) => onUpdate({ employment: v as Answers["employment"] }, autoAdvance)}
+        />
+      );
+    case "workingWithBroker":
+      return (
+        <ChoiceQuestion
+          choices={choices!}
+          value={answers.workingWithBroker}
+          onChange={(v) => onUpdate({ workingWithBroker: v as Answers["workingWithBroker"] }, autoAdvance)}
         />
       );
     default:

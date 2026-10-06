@@ -10,7 +10,8 @@ export type QuestionId =
   | "householdIncome"
   | "downPayment"
   | "currentHomeValue"
-  | "employment";
+  | "employment"
+  | "workingWithBroker";
 
 export type QuestionKind = "choice" | "regions" | "currency";
 
@@ -140,6 +141,17 @@ export const QUESTIONS: QuestionDef[] = [
       { value: "transition", label: "En transition", hint: "Entre deux emplois, études…" },
     ],
   },
+  {
+    id: "workingWithBroker",
+    kind: "choice",
+    title: "Travaillez-vous déjà avec un courtier immobilier ?",
+    subtitle: "Pour qu'on sache comment mieux vous accompagner.",
+    autoAdvance: true,
+    choices: [
+      { value: "non", label: "Non", hint: "Je n'ai pas encore de courtier" },
+      { value: "oui", label: "Oui", hint: "Je travaille déjà avec quelqu'un" },
+    ],
+  },
 ];
 
 export function getVisibleQuestions(answers: Answers): QuestionDef[] {
@@ -158,5 +170,6 @@ export function isAnswered(q: QuestionDef, a: Answers): boolean {
     case "downPayment": return typeof a.downPayment === "number" && a.downPayment >= 0;
     case "currentHomeValue": return typeof a.currentHomeValue === "number" && a.currentHomeValue > 0;
     case "employment": return !!a.employment;
+    case "workingWithBroker": return !!a.workingWithBroker;
   }
 }

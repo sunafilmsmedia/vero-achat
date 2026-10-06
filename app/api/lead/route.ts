@@ -117,6 +117,7 @@ export async function POST(req: Request) {
     downPayment: answers.downPayment ?? 0,
     currentHomeValue: answers.currentHomeValue ?? 0,
     employment: answers.employment ?? "",
+    travailleDejaAvecCourtier: answers.workingWithBroker ?? "",
 
     // Données brutes
     lead: { name, phone, email },

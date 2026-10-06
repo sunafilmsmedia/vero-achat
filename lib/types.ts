@@ -38,6 +38,8 @@ export type EmploymentStatus =
   | "retraite"
   | "transition"; // entre deux emplois, retour aux études, etc.
 
+export type WorkingWithBroker = "oui" | "non";
+
 export type Region = {
   id: string;
   name: string;
@@ -59,6 +61,9 @@ export interface Answers {
   // d'acheter : sa mise de fonds sortira de cette vente.
   currentHomeValue?: number;
   employment?: EmploymentStatus;
+  // Dernière question : permet de savoir si on doit coordonner avec un
+  // courtier déjà en place plutôt que d'en proposer un.
+  workingWithBroker?: WorkingWithBroker;
 }
 
 // ── Capacité d'achat (calcul déterministe, lib/capacity.ts) ─────────────────

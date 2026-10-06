@@ -170,6 +170,11 @@ export function isAnswered(q: QuestionDef, a: Answers): boolean {
     case "downPayment": return typeof a.downPayment === "number" && a.downPayment >= 0;
     case "currentHomeValue": return typeof a.currentHomeValue === "number" && a.currentHomeValue > 0;
     case "employment": return !!a.employment;
-    case "workingWithBroker": return !!a.workingWithBroker;
+    case "workingWithBroker":
+      // "Non" = on peut continuer. "Oui" = bloqué SAUF si la personne
+      // clique "Je veux changer" (wantsToSwitch = true).
+      if (a.workingWithBroker === "non") return true;
+      if (a.workingWithBroker === "oui" && a.wantsToSwitch === true) return true;
+      return false;
   }
 }

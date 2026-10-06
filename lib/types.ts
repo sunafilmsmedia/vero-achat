@@ -61,9 +61,11 @@ export interface Answers {
   // d'acheter : sa mise de fonds sortira de cette vente.
   currentHomeValue?: number;
   employment?: EmploymentStatus;
-  // Dernière question : permet de savoir si on doit coordonner avec un
-  // courtier déjà en place plutôt que d'en proposer un.
+  // Dernière question : workingWithBroker="oui" bloque le formulaire — on ne
+  // veut pas de gens déjà sous contrat avec un autre courtier. wantsToSwitch
+  // débloque (la personne n'est pas satisfaite et veut changer).
   workingWithBroker?: WorkingWithBroker;
+  wantsToSwitch?: boolean;
 }
 
 // ── Capacité d'achat (calcul déterministe, lib/capacity.ts) ─────────────────

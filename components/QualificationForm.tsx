@@ -10,6 +10,7 @@ import ProgressBar from "./ProgressBar";
 import ChoiceQuestion from "./questions/ChoiceQuestion";
 import CurrencyQuestion from "./questions/CurrencyQuestion";
 import RegionMultiSearch from "./questions/RegionMultiSearch";
+import ExistingBrokerBlocker from "./questions/ExistingBrokerBlocker";
 
 interface Props {
   onComplete: (answers: Answers) => void;
@@ -65,6 +66,12 @@ export default function QualificationForm({ onComplete, onLongTerm, onExit }: Pr
   const isLast = index >= visible.length - 1;
   const canProceed = current ? isAnswered(current, answers) : false;
 
+  // Le blocker "tu as déjà un courtier" remplace la question pour ce step.
+  const isBlocked =
+    current?.id === "workingWithBroker" &&
+    answers.workingWithBroker === "oui" &&
+    answers.wantsToSwitch !== true;
+
   const submit = useCallback(() => {
     if (autoAdvanceTimer.current) clearTimeout(autoAdvanceTimer.current);
     onComplete(answers);
@@ -91,6 +98,10 @@ export default function QualificationForm({ onComplete, onLongTerm, onExit }: Pr
       let nextAnswers: Answers = answers;
       setAnswers((prev) => {
         const next = { ...prev, ...partial };
+        // Réinitialiser wantsToSwitch si on change la réponse à workingWithBroker
+        if ("workingWithBroker" in partial && partial.workingWithBroker !== "oui") {
+          delete next.wantsToSwitch;
+        }
         nextAnswers = next;
         return next;
       });
@@ -104,7 +115,12 @@ export default function QualificationForm({ onComplete, onLongTerm, onExit }: Pr
         return;
       }
 
-      if (autoAdvance) {
+      // Bloque l'auto-advance quand workingWithBroker="oui" sans wantsToSwitch :
+      // le composant ExistingBrokerBlocker prend le relais.
+      const wouldBeBlocked =
+        nextAnswers.workingWithBroker === "oui" && nextAnswers.wantsToSwitch !== true;
+
+      if (autoAdvance && !wouldBeBlocked) {
         trackAnswer(partial);
         if (autoAdvanceTimer.current) clearTimeout(autoAdvanceTimer.current);
         autoAdvanceTimer.current = setTimeout(() => {
@@ -156,14 +172,16 @@ export default function QualificationForm({ onComplete, onLongTerm, onExit }: Pr
             exit={{ opacity: 0, x: direction * -60 }}
             transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="mb-7 sm:mb-9">
-              <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl text-[var(--color-brand-100)] leading-tight tracking-tight text-balance">
-                {current.title}
-              </h2>
-              {current.subtitle && (
-                <p className="mt-2.5 text-sm sm:text-base text-slate-400">{current.subtitle}</p>
-              )}
-            </div>
+            {!isBlocked && (
+              <div className="mb-7 sm:mb-9">
+                <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl text-[var(--color-brand-100)] leading-tight tracking-tight text-balance">
+                  {current.title}
+                </h2>
+                {current.subtitle && (
+                  <p className="mt-2.5 text-sm sm:text-base text-slate-400">{current.subtitle}</p>
+                )}
+              </div>
+            )}
 
             <QuestionRenderer
               questionId={current.id}
@@ -334,6 +352,16 @@ function QuestionRenderer({ questionId, answers, choices, autoAdvance, onUpdate 
         />
       );
     case "workingWithBroker":
+      // Quand workingWithBroker="oui" sans wantsToSwitch, on remplace la
+      // question par le blocker légal qui propose "Je veux changer" pour débloquer.
+      if (answers.workingWithBroker === "oui" && answers.wantsToSwitch !== true) {
+        return (
+          <ExistingBrokerBlocker
+            onWantsToSwitch={() => onUpdate({ wantsToSwitch: true }, true)}
+            onCancel={() => onUpdate({ workingWithBroker: undefined, wantsToSwitch: undefined }, false)}
+          />
+        );
+      }
       return (
         <ChoiceQuestion
           choices={choices!}

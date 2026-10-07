@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "leaflet/dist/leaflet.css";
 
 @theme {
   --font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
@@ -143,29 +142,9 @@ body {
   opacity: 0.5;
 }
 
-/* Carte fond non-interactive — tuiles claires à peine visibles sous le voile blanc */
+/* Carte fond décorative — image statique à peine visible sous le voile blanc */
 .map-mono {
   filter: grayscale(1) contrast(1.02) brightness(1.02) opacity(0.4);
-}
-
-.map-no-interaction {
-  pointer-events: none !important;
-}
-
-/* Leaflet attribution discrète */
-.leaflet-container {
-  background: transparent !important;
-  font-family: var(--font-sans);
-}
-.leaflet-control-attribution {
-  background: rgba(255, 255, 255, 0.7) !important;
-  color: rgba(0,0,0, 0.5) !important;
-  font-size: 10px !important;
-  padding: 2px 6px !important;
-  border-radius: 4px;
-}
-.leaflet-control-attribution a {
-  color: rgba(0,0,0, 0.7) !important;
 }
 
 /* Étiquettes (tooltips) Leaflet sur la carte régions */

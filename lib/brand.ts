@@ -34,7 +34,11 @@ export interface BrandConfig {
   /** Ville centrale (utilisée dans les textes du rapport de repli). */
   city: string;
 
-  /** Carte décorative du hero. */
+  /**
+   * Carte décorative du hero — sert uniquement à régénérer public/hero-map.webp
+   * à un nouveau déploiement (image statique, pas de carte Leaflet live : voir
+   * components/HeroBackground.tsx). Pas consommé au runtime.
+   */
   map: {
     center: [number, number]; // [lat, lng]
     zoom: number;

@@ -1,9 +1,9 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import dynamic from "next/dynamic";
 import { useState } from "react";
 import Hero from "@/components/Hero";
+import HeroBackground from "@/components/HeroBackground";
 import TopLogos from "@/components/TopLogos";
 import QualificationForm from "@/components/QualificationForm";
 import LoadingScreen from "@/components/LoadingScreen";
@@ -12,8 +12,6 @@ import LongTermScreen from "@/components/LongTermScreen";
 import ResultsScreen from "@/components/results/ResultsScreen";
 import { trackStep } from "@/lib/track";
 import type { AnalyzeResponse, Answers } from "@/lib/types";
-
-const HeroBackground = dynamic(() => import("@/components/HeroBackground"), { ssr: false });
 
 type Stage = "hero" | "form" | "loading" | "preReveal" | "results" | "longTerm";
 

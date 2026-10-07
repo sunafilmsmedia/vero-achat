@@ -91,7 +91,11 @@ export default function Home() {
         {stage === "hero" && (
           <motion.div
             key="bg"
-            initial={{ opacity: 0 }}
+            // initial={false} : pas de fondu au tout premier rendu (la page se
+            // charge déjà sur "hero") — sinon le fond reste à opacity:0 tant que
+            // le JS n'a pas hydraté, ce qui retarde artificiellement le LCP.
+            // L'exit (en quittant le hero) reste animé normalement.
+            initial={false}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.6 }}
@@ -104,7 +108,7 @@ export default function Home() {
 
       <AnimatePresence mode="wait">
         {stage === "hero" && (
-          <motion.div key="hero" className="relative z-10" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.5 }}>
+          <motion.div key="hero" className="relative z-10" initial={false} animate={{ opacity: 1 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.5 }}>
             <Hero onStart={() => { trackStep("debut"); setStage("form"); }} />
           </motion.div>
         )}

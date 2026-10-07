@@ -52,7 +52,11 @@ export default function Hero({ onStart }: HeroProps) {
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-start px-5 sm:px-8 pt-20 sm:pt-28 pb-32">
       <motion.div
-        initial={{ opacity: 0, y: 16 }}
+        // initial={false} : le H1 est l'élément LCP de la page — on ne veut pas
+        // qu'il reste à opacity:0 en attendant l'hydratation JS + l'animation.
+        // Il s'affiche directement ; seuls les éléments en dessous (accroche,
+        // CTA) gardent leur fondu décalé.
+        initial={false}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className="max-w-3xl text-center"

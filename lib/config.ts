@@ -17,4 +17,4 @@ export const VIDEO_AUTO_REDIRECT = true;
 export const VIDEO_AUTO_REDIRECT_MS = 6000;
 
 // Nombre maximal de secteurs sélectionnables à la question « secteurs ».
-export const MAX_SECTEURS = 3;
+export const MAX_SECTEURS = 1;

@@ -62,8 +62,9 @@ export const QUESTIONS: QuestionDef[] = [
   {
     id: "regions",
     kind: "regions",
-    title: "Quels secteurs vous intéressent le plus ?",
-    subtitle: "Choisissez-en jusqu'à 3 — ou écrivez le vôtre.",
+    title: "Quel secteur vous intéresse le plus ?",
+    subtitle: "Choisissez-le dans la liste — ou écrivez le vôtre.",
+    autoAdvance: true,
   },
   {
     id: "purchaseTimeline",

@@ -2,18 +2,23 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { formatRange, NUANCE_CAPACITE } from "@/lib/fallbackReport";
+import type { CapacityResult } from "@/lib/types";
 
 export type RevealChoice = "yes" | "no";
 
 interface Props {
   onContinue: (choice: RevealChoice) => void;
+  // Fourchette teaser affichée AVANT le formulaire de coordonnées — juste le
+  // montant, sans détail (budget réaliste, paiement, etc. restent gated).
+  capacity: CapacityResult;
 }
 
 // Délai avant que les boutons soient cliquables.
 // Empêche les clics fantômes de l'étape précédente de traverser cet écran.
 const CLICK_GUARD_MS = 700;
 
-export default function PreRevealScreen({ onContinue }: Props) {
+export default function PreRevealScreen({ onContinue, capacity }: Props) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -47,14 +52,25 @@ export default function PreRevealScreen({ onContinue }: Props) {
         </motion.div>
 
         <p className="text-[11px] uppercase tracking-[0.25em] text-[var(--color-brand-300)] mb-3">
-          Analyse complète
+          Ce que vous pourriez acheter
         </p>
-        <h1 className="display-title text-[2rem] sm:text-5xl lg:text-6xl text-[var(--color-brand-100)] text-balance">
-          Votre portrait est prêt.
-        </h1>
-        <p className="mt-5 text-base sm:text-lg text-slate-400 leading-relaxed text-balance max-w-md mx-auto">
-          Entrez vos informations pour débloquer votre pouvoir d&apos;achat et recevoir
-          votre analyse complète, entièrement gratuite.
+
+        {/* Teaser — la fourchette, et rien d'autre : le détail reste gated */}
+        <motion.p
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15, duration: 0.6 }}
+          className="font-serif text-[2.1rem] sm:text-5xl lg:text-6xl text-[var(--color-brand-100)] leading-tight text-balance"
+        >
+          {formatRange(capacity.capacityLow, capacity.capacityHigh)}
+        </motion.p>
+        <p className="mt-3 text-xs sm:text-sm text-slate-500 leading-relaxed max-w-sm mx-auto">
+          {NUANCE_CAPACITE}
+        </p>
+
+        <p className="mt-7 text-base sm:text-lg text-slate-400 leading-relaxed text-balance max-w-md mx-auto">
+          Entrez vos informations pour recevoir le détail complet — budget réaliste,
+          mise de fonds visée, paiement mensuel et prochaines étapes.
         </p>
 
         {/* Bouton primaire — option recommandée */}
@@ -79,10 +95,10 @@ export default function PreRevealScreen({ onContinue }: Props) {
           "
         >
           <span className="block font-semibold text-base sm:text-lg">
-            Voir mon pouvoir d&apos;achat
+            Recevoir mon analyse complète
           </span>
           <span className="block text-xs sm:text-sm text-[#0a0a0a]/65 mt-1">
-            Analyse complète et gratuite
+            Gratuite — on vous envoie ça où ?
           </span>
           <span className="absolute right-5 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5">
             {ready ? (

@@ -289,7 +289,9 @@ function QuestionRenderer({ questionId, answers, choices, autoAdvance, onUpdate 
       return (
         <RegionMultiSearch
           value={answers.regions}
-          onChange={(ids) => onUpdate({ regions: ids }, false)}
+          // Un seul secteur (MAX_SECTEURS=1) : dès qu'on en choisit un, on
+          // avance automatiquement. ids=[] (retrait du chip) ne fait pas avancer.
+          onChange={(ids) => onUpdate({ regions: ids }, ids.length > 0)}
         />
       );
     case "purchaseTimeline":

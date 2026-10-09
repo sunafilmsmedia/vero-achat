@@ -128,7 +128,7 @@ export default function Home() {
         )}
         {stage === "preReveal" && analyze && (
           <motion.div key="preReveal" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
-            <PreRevealScreen onContinue={revealResults} />
+            <PreRevealScreen onContinue={revealResults} capacity={analyze.scoring.capacity} />
           </motion.div>
         )}
         {stage === "results" && analyze && answers && (

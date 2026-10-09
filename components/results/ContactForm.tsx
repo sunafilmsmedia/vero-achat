@@ -108,7 +108,7 @@ export default function ContactForm({ answers, verdict, onSubmitted, gated }: Pr
       </h3>
       <p className="mt-2 text-sm sm:text-base text-slate-400 leading-relaxed">
         {gated
-          ? "Vous recevrez votre portrait complet : capacité, budget réaliste et prochaines étapes."
+          ? "Vous recevrez le détail complet : budget réaliste, mise de fonds visée, paiement mensuel et prochaines étapes."
           : `${brokersInlineNames()} vous revient avec les propriétés réellement disponibles dans votre budget — et les programmes auxquels vous avez droit.`}
       </p>
 

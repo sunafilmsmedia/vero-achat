@@ -85,14 +85,13 @@ export const BRAND: BrandConfig = {
 
   hero: {
     chip: "Analyse d'achat personnalisée",
-    title: "Quelle propriété pouvez-vous vraiment acheter à Gatineau ?",
-    titleHighlight: "vraiment acheter",
-    titleSoft: "Gatineau",
+    title: "Quelle maison peux-tu vraiment te permettre ?",
+    titleHighlight: "vraiment te permettre",
     subtitle:
-      "Neuf questions, trois minutes. Vous repartez avec ce que votre situation pourrait supporter, votre budget réaliste aujourd'hui, et ce qu'il vous manque exactement pour débloquer le reste.",
+      "Découvre ton budget immobilier estimé en 60 secondes et les propriétés à ta portée.",
     signature: "Boosté par l'IA",
-    cta: "Calculer mon pouvoir d'achat",
-    ctaHint: "3 minutes — gratuit et confidentiel",
+    cta: "Calculer",
+    ctaHint: "60 secondes — gratuit et confidentiel",
     scrollHint: "Confidentiel · Sans engagement",
   },
 

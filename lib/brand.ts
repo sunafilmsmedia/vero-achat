@@ -84,7 +84,7 @@ export const BRAND: BrandConfig = {
   },
 
   hero: {
-    chip: "Analyse d'achat personnalisée",
+    chip: "Gatineau",
     title: "Quelle maison peux-tu vraiment te permettre ?",
     titleHighlight: "vraiment te permettre",
     subtitle:

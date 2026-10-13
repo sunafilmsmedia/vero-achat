@@ -7,13 +7,14 @@ import HeroBackground from "@/components/HeroBackground";
 import TopLogos from "@/components/TopLogos";
 import QualificationForm from "@/components/QualificationForm";
 import LoadingScreen from "@/components/LoadingScreen";
-import PreRevealScreen from "@/components/PreRevealScreen";
 import LongTermScreen from "@/components/LongTermScreen";
 import ResultsScreen from "@/components/results/ResultsScreen";
 import { trackStep } from "@/lib/track";
 import type { AnalyzeResponse, Answers } from "@/lib/types";
 
-type Stage = "hero" | "form" | "loading" | "preReveal" | "results" | "longTerm";
+// Moins d'étapes : une fois calculé, on va directement sur l'écran qui
+// montre l'estimation ET le formulaire (plus d'écran teaser intermédiaire).
+type Stage = "hero" | "form" | "loading" | "results" | "longTerm";
 
 const MIN_LOADING_MS = 2000;
 
@@ -21,10 +22,12 @@ export default function Home() {
   const [stage, setStage] = useState<Stage>("hero");
   const [answers, setAnswers] = useState<Answers | null>(null);
   const [analyze, setAnalyze] = useState<AnalyzeResponse | null>(null);
-  const [revealChoice, setRevealChoice] = useState<"yes" | "no">("no");
+  // Toujours "yes" maintenant (plus d'écran de choix) : ResultsScreen garde
+  // ce prop pour afficher le volet gated (estimation + formulaire) en premier.
+  const [revealChoice] = useState<"yes" | "no">("yes");
 
   const handleFormComplete = async (finalAnswers: Answers) => {
-    trackStep("analyse");
+    trackStep("guide_gratuit");
     setAnswers(finalAnswers);
     setStage("loading");
     if (typeof window !== "undefined") window.scrollTo(0, 0);
@@ -49,8 +52,10 @@ export default function Home() {
     setTimeout(() => {
       if (result) {
         setAnalyze(result);
-        trackStep("pre_reveal");
-        setStage("preReveal");
+        // Directement sur l'écran estimation + formulaire — plus d'étape
+        // teaser intermédiaire entre le calcul et la demande de coordonnées.
+        trackStep("resultats", "avec_contact");
+        setStage("results");
         if (typeof window !== "undefined") window.scrollTo(0, 0);
       } else {
         setStage("form");
@@ -58,15 +63,8 @@ export default function Home() {
     }, remaining);
   };
 
-  const revealResults = (choice: "yes" | "no") => {
-    trackStep("resultats", choice === "yes" ? "avec_contact" : "sans_contact");
-    setRevealChoice(choice);
-    setStage("results");
-    if (typeof window !== "undefined") window.scrollTo(0, 0);
-  };
-
-  // Achat à plus de 12 mois : on remet la vidéo de préparation, sans analyse
-  // ni capture de lead.
+  // Achat à plus de 12 mois : on remet la vidéo de préparation, sans guide
+  // gratuit ni capture de lead.
   const handleLongTerm = (partialAnswers: Answers) => {
     trackStep("long_terme");
     setAnswers(partialAnswers);
@@ -77,13 +75,12 @@ export default function Home() {
   const restart = () => {
     setAnswers(null);
     setAnalyze(null);
-    setRevealChoice("no");
     setStage("hero");
     if (typeof window !== "undefined") window.scrollTo(0, 0);
   };
 
   const showChrome =
-    stage === "hero" || stage === "preReveal" || stage === "results" || stage === "longTerm";
+    stage === "hero" || stage === "results" || stage === "longTerm";
 
   return (
     <main className="relative min-h-screen overflow-hidden">
@@ -124,11 +121,6 @@ export default function Home() {
         {stage === "loading" && (
           <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
             <LoadingScreen />
-          </motion.div>
-        )}
-        {stage === "preReveal" && analyze && (
-          <motion.div key="preReveal" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
-            <PreRevealScreen onContinue={revealResults} capacity={analyze.scoring.capacity} />
           </motion.div>
         )}
         {stage === "results" && analyze && answers && (

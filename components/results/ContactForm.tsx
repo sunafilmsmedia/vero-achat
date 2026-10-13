@@ -97,13 +97,13 @@ export default function ContactForm({ answers, verdict, onSubmitted, gated }: Pr
       <div className="flex items-center gap-2 mb-1">
         <span className="w-1 h-1 rounded-full bg-[var(--color-gold)]" />
         <span className="text-[11px] uppercase tracking-[0.18em] text-[var(--color-gold-soft)]">
-          {gated ? "Débloquer mon analyse" : "Plan d'achat gratuit"}
+          {gated ? "Débloquer mon guide gratuit" : "Plan d'achat gratuit"}
         </span>
       </div>
 
       <h3 className="font-serif text-2xl sm:text-3xl text-[var(--color-brand-100)] leading-tight text-balance">
         {gated
-          ? "Où voulez-vous recevoir votre analyse gratuite ?"
+          ? "Où voulez-vous recevoir votre guide gratuit ?"
           : "Où voulez-vous recevoir votre plan d'achat ?"}
       </h3>
       <p className="mt-2 text-sm sm:text-base text-slate-400 leading-relaxed">
@@ -162,8 +162,8 @@ export default function ContactForm({ answers, verdict, onSubmitted, gated }: Pr
           </svg>
         </span>
         <span className="text-xs sm:text-sm text-slate-400 leading-relaxed">
-          J&apos;accepte que {BRAND.teamName} m&apos;envoie mon analyse
-          gratuite et puisse me contacter au sujet de mon projet d&apos;achat.
+          J&apos;accepte que {BRAND.teamName} m&apos;envoie mon guide
+          gratuit et puisse me contacter au sujet de mon projet d&apos;achat.
         </span>
       </label>
 

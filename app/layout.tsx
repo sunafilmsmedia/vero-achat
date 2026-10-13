@@ -30,11 +30,11 @@ const montserrat = Montserrat({
 
 export const metadata: Metadata = {
   title: `${BRAND.teamName} — Quelle maison peux-tu vraiment te permettre ?`,
-  description: `Une analyse personnalisée, propulsée par l'intelligence artificielle, pour connaître votre pouvoir d'achat réel et ce qu'il vous manque pour acheter en ${BRAND.region}.`,
+  description: `Un guide gratuit personnalisé, propulsé par l'intelligence artificielle, pour connaître votre pouvoir d'achat réel et ce qu'il vous manque pour acheter en ${BRAND.region}.`,
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://exemple.vercel.app"),
   openGraph: {
     title: "Quelle maison peux-tu vraiment te permettre ?",
-    description: `Analyse d'achat personnalisée — ${BRAND.teamName}, courtière immobilière RE/MAX en ${BRAND.region}.`,
+    description: `Guide d'achat gratuit personnalisé — ${BRAND.teamName}, courtière immobilière RE/MAX en ${BRAND.region}.`,
     locale: "fr_CA",
   },
 };

@@ -227,7 +227,7 @@ export default function QualificationForm({ onComplete, onLongTerm, onExit }: Pr
                 transition-all
               "
             >
-              Voir mon analyse
+              Voir mon guide gratuit
               <svg className="w-4 h-4" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M5 10h10M11 6l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
               </svg>

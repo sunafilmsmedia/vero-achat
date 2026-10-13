@@ -56,7 +56,7 @@ export default function LongTermScreen({ onRestart }: Props) {
           Plus de 12 mois ? C&apos;est le meilleur moment pour bâtir votre dossier.
         </h1>
         <p className="mt-5 text-base sm:text-lg text-slate-400 leading-relaxed text-balance max-w-md mx-auto">
-          À cette distance, une analyse de budget vieillirait mal — les taux et le
+          À cette distance, un guide gratuit vieillirait mal — les taux et le
           marché auront bougé. On vous a préparé une vidéo qui explique exactement
           quoi faire d&apos;ici là : mise de fonds, CELIAPP, crédit et dossier de
           financement.

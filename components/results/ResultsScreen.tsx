@@ -1,20 +1,19 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
 import { formatCurrency } from "@/lib/format";
 import { NUANCE_CAPACITE, VERDICT_HEADLINES, formatRange } from "@/lib/fallbackReport";
 import { BRAND, brokersInlineNames } from "@/lib/brand";
 import type { AnalyzeResponse, Answers, CapacityResult, Verdict } from "@/lib/types";
-import ContactForm from "./ContactForm";
+import type { LeadResult } from "@/app/page";
 import ProgramsBlock from "./ProgramsBlock";
 
 interface Props {
   analyze: AnalyzeResponse;
   answers: Answers;
-  // "yes" → la personne s'est engagée à recevoir l'analyse : le contenu est
-  // bloqué derrière le ContactForm. "no" → résultats affichés directement.
-  revealChoice: "yes" | "no";
+  // Coordonnées déjà collectées dans le questionnaire et lead déjà soumis au
+  // CRM avant même d'arriver sur cet écran — null si la soumission a échoué.
+  leadResult: LeadResult | null;
   onRestart: () => void;
 }
 
@@ -45,76 +44,11 @@ const VERDICT_BADGE: Record<Verdict, { label: string; color: string; bg: string;
   },
 };
 
-type SubmissionState =
-  | { kind: "pending" }
-  | { kind: "done"; stored: boolean; firstName: string };
-
-export default function ResultsScreen({ analyze, answers, revealChoice, onRestart }: Props) {
+export default function ResultsScreen({ analyze, answers, leadResult, onRestart }: Props) {
   const { scoring, report } = analyze;
   const capacity = scoring.capacity;
   const badge = VERDICT_BADGE[scoring.verdict];
-  const [submission, setSubmission] = useState<SubmissionState>({ kind: "pending" });
-
-  const isGated = revealChoice === "yes" && submission.kind === "pending";
   const showPrograms = capacity.downPaymentGap > 0 || scoring.verdict === "a_batir";
-
-  if (isGated) {
-    return (
-      <div className="min-h-screen px-5 sm:px-8 py-12 sm:py-16 max-w-xl mx-auto w-full">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center"
-        >
-          <div className="relative mx-auto mb-7 w-16 h-16">
-            <div className="absolute inset-0 rounded-full bg-[var(--color-brand-500)]/20 blur-xl" />
-            <div className="relative w-16 h-16 rounded-full bg-gradient-to-br from-[var(--color-gold-soft)] to-[var(--color-gold)] border border-white/10 flex items-center justify-center shadow-[0_10px_40px_-10px_rgba(201,162,39,0.5)]">
-              <svg className="w-7 h-7 text-[#0a0a0a]" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8">
-                <rect x="4" y="9" width="12" height="9" rx="2" />
-                <path d="M7 9V6.5C7 4.8 8.3 3.5 10 3.5C11.7 3.5 13 4.8 13 6.5V9" />
-              </svg>
-            </div>
-          </div>
-
-          <p className="text-[11px] uppercase tracking-[0.25em] text-[var(--color-brand-300)] mb-3">
-            Ce que vous pourriez acheter
-          </p>
-
-          {/* Estimation — affichée directement, sans clic ni écran de plus */}
-          <p className="font-serif text-[2.1rem] sm:text-5xl lg:text-6xl text-[var(--color-brand-100)] leading-tight text-balance">
-            {formatRange(capacity.capacityLow, capacity.capacityHigh)}
-          </p>
-          <p className="mt-3 text-xs sm:text-sm text-slate-500 leading-relaxed max-w-sm mx-auto">
-            {NUANCE_CAPACITE}
-          </p>
-
-          <p className="mt-7 text-base sm:text-lg text-slate-400 leading-relaxed text-balance max-w-md mx-auto">
-            Entrez vos informations pour recevoir le détail complet — budget réaliste,
-            mise de fonds visée, paiement mensuel et prochaines étapes.
-          </p>
-        </motion.div>
-
-        <div className="mt-8">
-          <ContactForm
-            answers={answers}
-            verdict={scoring.verdict}
-            gated
-            onSubmitted={(r) => setSubmission({ kind: "done", ...r })}
-          />
-        </div>
-
-        <div className="mt-10 text-center">
-          <button
-            onClick={onRestart}
-            className="text-xs text-slate-500 hover:text-[var(--color-brand-200)] transition-colors"
-          >
-            Retour à l&apos;accueil
-          </button>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen px-5 sm:px-8 py-10 sm:py-14 max-w-3xl mx-auto w-full">
@@ -163,16 +97,11 @@ export default function ResultsScreen({ analyze, answers, revealChoice, onRestar
         Estimation indicative — un courtier vous appellera pour la valider avec vous.
       </motion.p>
 
-      {/* Capture (ou confirmation) */}
-      {submission.kind === "pending" ? (
-        <ContactForm
-          answers={answers}
-          verdict={scoring.verdict}
-          onSubmitted={(r) => setSubmission({ kind: "done", ...r })}
-        />
-      ) : (
-        <ConfirmationBlock stored={submission.stored} firstName={submission.firstName} />
-      )}
+      {/* Confirmation — lead déjà soumis au CRM avant ce calcul IA */}
+      <ConfirmationBlock
+        stored={leadResult?.stored ?? false}
+        firstName={leadResult?.firstName ?? ""}
+      />
 
       {/* Stats secondaires */}
       <div className="grid sm:grid-cols-3 gap-3 mt-12">

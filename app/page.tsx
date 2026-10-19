@@ -10,21 +10,68 @@ import LoadingScreen from "@/components/LoadingScreen";
 import LongTermScreen from "@/components/LongTermScreen";
 import ResultsScreen from "@/components/results/ResultsScreen";
 import { trackStep } from "@/lib/track";
+import { getFbclid } from "@/lib/attribution";
+import { trackLeadWithMatching } from "@/components/MetaPixel";
 import type { AnalyzeResponse, Answers } from "@/lib/types";
 
-// Moins d'étapes : une fois calculé, on va directement sur l'écran qui
-// montre l'estimation ET le formulaire (plus d'écran teaser intermédiaire).
+// Moins d'étapes : une fois calculé, on va directement sur l'écran de
+// résultats complet — les coordonnées sont déjà dans le questionnaire.
 type Stage = "hero" | "form" | "loading" | "results" | "longTerm";
 
 const MIN_LOADING_MS = 2000;
+
+export type LeadResult = { stored: boolean; firstName: string };
+
+// Soumet le lead au webhook CRM dès la fin du questionnaire (les coordonnées
+// en font désormais partie) — en parallèle du calcul IA, pas après coup.
+async function submitLead(answers: Answers): Promise<LeadResult | null> {
+  const name = (answers.fullName ?? "").trim();
+  const email = (answers.email ?? "").trim();
+  const phone = (answers.phone ?? "").trim();
+  if (!name || !email) return null;
+
+  const [firstNameRaw, ...lastParts] = name.split(/\s+/);
+  try {
+    const res = await fetch("/api/lead", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name,
+        email,
+        phone: phone || undefined,
+        consent: true,
+        answers,
+        leadType: "acheteur",
+        fbclid: getFbclid(),
+      }),
+    });
+    const data = await res.json();
+
+    trackLeadWithMatching(
+      {
+        email,
+        phone: phone || undefined,
+        firstName: firstNameRaw,
+        lastName: lastParts.join(" ") || undefined,
+      },
+      {
+        content_category: "real_estate_buyer",
+        verdict: data.verdict,
+        currency: "CAD",
+      }
+    );
+    trackStep("soumis");
+    return { stored: !!data.stored, firstName: firstNameRaw };
+  } catch {
+    return null;
+  }
+}
 
 export default function Home() {
   const [stage, setStage] = useState<Stage>("hero");
   const [answers, setAnswers] = useState<Answers | null>(null);
   const [analyze, setAnalyze] = useState<AnalyzeResponse | null>(null);
-  // Toujours "yes" maintenant (plus d'écran de choix) : ResultsScreen garde
-  // ce prop pour afficher le volet gated (estimation + formulaire) en premier.
-  const [revealChoice] = useState<"yes" | "no">("yes");
+  const [leadResult, setLeadResult] = useState<LeadResult | null>(null);
 
   const handleFormComplete = async (finalAnswers: Answers) => {
     trackStep("guide_gratuit");
@@ -34,17 +81,20 @@ export default function Home() {
 
     const startedAt = performance.now();
     let result: AnalyzeResponse | null = null;
+    let lead: LeadResult | null = null;
     try {
-      const res = await fetch("/api/analyze", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ answers: finalAnswers }),
-      });
-      if (res.ok) {
-        result = (await res.json()) as AnalyzeResponse;
-      }
+      const [analyzeSettled, leadSettled] = await Promise.allSettled([
+        fetch("/api/analyze", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ answers: finalAnswers }),
+        }).then((res) => (res.ok ? (res.json() as Promise<AnalyzeResponse>) : null)),
+        submitLead(finalAnswers),
+      ]);
+      if (analyzeSettled.status === "fulfilled") result = analyzeSettled.value;
+      if (leadSettled.status === "fulfilled") lead = leadSettled.value;
     } catch {
-      // result reste null
+      // result/lead restent null
     }
 
     const elapsed = performance.now() - startedAt;
@@ -52,8 +102,9 @@ export default function Home() {
     setTimeout(() => {
       if (result) {
         setAnalyze(result);
-        // Directement sur l'écran estimation + formulaire — plus d'étape
-        // teaser intermédiaire entre le calcul et la demande de coordonnées.
+        setLeadResult(lead);
+        // Directement sur l'écran de résultats complet — coordonnées déjà
+        // collectées dans le questionnaire, lead déjà soumis au CRM.
         trackStep("resultats", "avec_contact");
         setStage("results");
         if (typeof window !== "undefined") window.scrollTo(0, 0);
@@ -75,6 +126,7 @@ export default function Home() {
   const restart = () => {
     setAnswers(null);
     setAnalyze(null);
+    setLeadResult(null);
     setStage("hero");
     if (typeof window !== "undefined") window.scrollTo(0, 0);
   };
@@ -128,7 +180,7 @@ export default function Home() {
             <ResultsScreen
               analyze={analyze}
               answers={answers}
-              revealChoice={revealChoice}
+              leadResult={leadResult}
               onRestart={restart}
             />
           </motion.div>

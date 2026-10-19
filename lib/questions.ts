@@ -11,9 +11,12 @@ export type QuestionId =
   | "downPayment"
   | "currentHomeValue"
   | "employment"
-  | "workingWithBroker";
+  | "workingWithBroker"
+  | "fullName"
+  | "email"
+  | "phone";
 
-export type QuestionKind = "choice" | "regions" | "currency";
+export type QuestionKind = "choice" | "regions" | "currency" | "text";
 
 export interface Choice<V extends string = string> {
   value: V;
@@ -29,6 +32,11 @@ export interface QuestionDef {
   choices?: Choice[];
   autoAdvance?: boolean;
   showIf?: (a: Answers) => boolean;
+  // kind "text" seulement.
+  inputType?: "text" | "email" | "tel";
+  placeholder?: string;
+  autoComplete?: string;
+  helper?: string;
 }
 
 export const QUESTIONS: QuestionDef[] = [
@@ -153,6 +161,33 @@ export const QUESTIONS: QuestionDef[] = [
       { value: "oui", label: "Oui", hint: "Je travaille déjà avec quelqu'un" },
     ],
   },
+  {
+    id: "fullName",
+    kind: "text",
+    title: "Quel est votre nom complet ?",
+    subtitle: "Pour savoir à qui s'adresser.",
+    inputType: "text",
+    autoComplete: "name",
+    placeholder: "Marie Tremblay",
+  },
+  {
+    id: "email",
+    kind: "text",
+    title: "Quel est votre courriel ?",
+    subtitle: "C'est là que vous recevrez votre guide gratuit.",
+    inputType: "email",
+    autoComplete: "email",
+    placeholder: "marie@exemple.ca",
+  },
+  {
+    id: "phone",
+    kind: "text",
+    title: "Quel est votre numéro de téléphone ?",
+    subtitle: "Pour qu'un courtier puisse vous joindre rapidement.",
+    inputType: "tel",
+    autoComplete: "tel",
+    placeholder: "(819) 555-0123",
+  },
 ];
 
 export function getVisibleQuestions(answers: Answers): QuestionDef[] {
@@ -177,5 +212,8 @@ export function isAnswered(q: QuestionDef, a: Answers): boolean {
       if (a.workingWithBroker === "non") return true;
       if (a.workingWithBroker === "oui" && a.wantsToSwitch === true) return true;
       return false;
+    case "fullName": return !!(a.fullName ?? "").trim();
+    case "email": return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((a.email ?? "").trim());
+    case "phone": return (a.phone ?? "").replace(/\D/g, "").length >= 10;
   }
 }

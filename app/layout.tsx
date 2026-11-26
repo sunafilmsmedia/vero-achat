@@ -46,6 +46,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <MetaPixel />
         <Clarity />
         {children}
+        <footer style={{ textAlign: 'center', padding: '12px 16px', fontSize: '11px', opacity: 0.5 }}>
+          <a href="https://sunafilmsmedia.com" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>
+            Conçu par Suna Films Media
+          </a>
+        </footer>
         <Script
           src="https://clarity-scanner.vercel.app/tracker.js"
           data-project={process.env.NEXT_PUBLIC_CLARITY_SCANNER_PROJECT ?? BRAND.slug}
